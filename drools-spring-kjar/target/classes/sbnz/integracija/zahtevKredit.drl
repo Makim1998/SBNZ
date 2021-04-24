@@ -1,0 +1,11 @@
+package sbnz.integracija;
+
+import com.example.facts.ZahtevKredit;
+
+
+rule "osnovni uslovi zahteva za kredit"
+    when
+        $z: ZahtevKredit()
+    then
+        update($z);
+end
