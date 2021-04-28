@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { SNACKBAR_CLOSE, SNACKBAR_ERROR, SNACKBAR_ERROR_OPTIONS } from '../constants/snackbar';
+import { User } from '../models/user';
+import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +14,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public authService: AuthService,
+    public userService: UserService,
+    public router: Router,
+    public snackBar: MatSnackBar
+  ) { }
+
   loginPending = false;
   loginForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required,
@@ -18,9 +30,6 @@ export class LoginComponent implements OnInit {
   });
 
   login(): void{
-    this.loginPending = true;
-  }
-/*   login(): void{
     if (this.loginForm.invalid){
       return;
     }
@@ -37,7 +46,7 @@ export class LoginComponent implements OnInit {
         }
       }
     );
-  } */
+  } 
 
   ngOnInit(): void {
   }
