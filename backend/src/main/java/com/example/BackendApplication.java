@@ -1,4 +1,4 @@
-package com.example.backend;
+package com.example;
 
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieScanner;
