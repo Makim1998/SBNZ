@@ -1,0 +1,42 @@
+<app-form-container>
+    <h2>Zahtev za kredit</h2>
+    <form [formGroup]="requestForm">
+        <div [class.disabled]="requestPending">
+            <mat-form-field>
+                <mat-label>Iznos</mat-label>
+                <input 
+                matInput 
+                autocomplete="off"
+                formControlName="iznos">
+                <mat-error>
+                    Unesite iznos!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Tip kredita</mat-label>
+                <mat-select>
+                  <mat-option *ngFor="let tip of tipovi" [value]="tip">
+                    {{tip}}
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Garancija</mat-label>
+                <mat-select>
+                  <mat-option *ngFor="let garancija of garancije" [value]="garancija">
+                    {{garancija}}
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <br>
+        <app-center-container>
+            <button 
+            *ngIf="!requestPending"
+            mat-raised-button 
+            color="primary"
+            (click)="request()">Posalji</button>
+            <app-spinner-button *ngIf="requestPending"></app-spinner-button>
+        </app-center-container>
+    </form>
+</app-form-container>

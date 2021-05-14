@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatSelectModule} from '@angular/material/select'; 
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -60,6 +61,7 @@ import { SpinnerButtonComponent } from './spinner-button/spinner-button.componen
     MatMenuModule,
     MatSidenavModule,
     MatTabsModule,
+    MatSelectModule,
     MatDialogModule,
     MatButtonModule,
     MatCardModule,
