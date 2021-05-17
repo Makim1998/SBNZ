@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="zahtevi_table")
@@ -20,34 +20,39 @@ public class ZahtevKredit {
 	@Column(name = "id")
 	private Long id;
 	
-	@NotBlank
+	@NotNull
 	private double iznos;
 	
-	@NotBlank
+	@NotNull
 	private int period;
 	
-	@NotBlank
 	private TipKredita tipKredita;
 
-	@NotBlank
 	private TipGarancije tipGarancije;
 	
+	private boolean status;
+	
+	private String odgovor;
+	
 	@OneToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "kredit_id", nullable = false)
+    @JoinColumn(name = "kredit_id", nullable = true)
 	private Kredit kredit;
 	
 	public ZahtevKredit() {
 		super();
 	}
 
-	public ZahtevKredit(Long id, @NotBlank double iznos, @NotBlank int period, @NotBlank TipKredita tipKredita,
-			TipGarancije tipGarancije) {
+	public ZahtevKredit(Long id, @NotNull double iznos, @NotNull int period, TipKredita tipKredita,
+			TipGarancije tipGarancije, boolean status, String odgovor, Kredit kredit) {
 		super();
 		this.id = id;
 		this.iznos = iznos;
 		this.period = period;
 		this.tipKredita = tipKredita;
 		this.tipGarancije = tipGarancije;
+		this.status = status;
+		this.odgovor = odgovor;
+		this.kredit = kredit;
 	}
 
 	public Long getId() {
@@ -88,6 +93,30 @@ public class ZahtevKredit {
 
 	public void setTipGarancije(TipGarancije tipGarancije) {
 		this.tipGarancije = tipGarancije;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public Kredit getKredit() {
+		return kredit;
+	}
+
+	public void setKredit(Kredit kredit) {
+		this.kredit = kredit;
+	}
+
+	public String getOdgovor() {
+		return odgovor;
+	}
+
+	public void setOdgovor(String odgovor) {
+		this.odgovor = odgovor;
 	}
 	
 }

@@ -26,7 +26,7 @@ public class Kredit {
 	private int kamata;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "klijent_id", nullable = false)
+    @JoinColumn(name = "klijent_id", nullable = true)
 	private Klijent klijent;
 
 	public Kredit() {

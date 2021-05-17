@@ -34,18 +34,18 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.loginPending = true;
-    this.userService.login(this.loginForm.value).subscribe(
-      (user: User) => {
-        this.loginPending = false;
-        if (user){
-          this.authService.saveUser(user);
-          this.router.navigate(['/']);
+      this.userService.login(this.loginForm.value).subscribe(
+        (user: User) => {
+          this.loginPending = false;
+          if (user){
+            this.authService.saveUser(user);
+            this.router.navigate(['/home']);
+          }
+          else{
+            this.snackBar.open(SNACKBAR_ERROR, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+          }
         }
-        else{
-          this.snackBar.open(SNACKBAR_ERROR, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
-        }
-      }
-    );
+      );
   } 
 
   ngOnInit(): void {

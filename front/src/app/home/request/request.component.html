@@ -12,21 +12,37 @@
                     Unesite iznos!
                 </mat-error>
             </mat-form-field>
+            <mat-form-field>
+              <mat-label>Period isplate</mat-label>
+              <input 
+              matInput 
+              autocomplete="off"
+              formControlName="period">
+              <mat-error>
+                  Unesite period isplate!
+              </mat-error>
+          </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Tip kredita</mat-label>
-                <mat-select>
+                <mat-select formControlName="tip">
                   <mat-option *ngFor="let tip of tipovi" [value]="tip">
                     {{tip}}
                   </mat-option>
                 </mat-select>
+                <mat-error>
+                  Unesite tip kredita!
+                </mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Garancija</mat-label>
-                <mat-select>
+                <mat-select formControlName="garancija">
                   <mat-option *ngFor="let garancija of garancije" [value]="garancija">
                     {{garancija}}
                   </mat-option>
                 </mat-select>
+                <mat-error>
+                  Unesite tip garancije!
+                </mat-error>
             </mat-form-field>
         </div>
         <br>

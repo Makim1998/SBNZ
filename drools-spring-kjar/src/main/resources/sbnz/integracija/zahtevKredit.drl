@@ -1,11 +1,13 @@
 package sbnz.integracija;
 
-import com.example.facts.ZahtevKredit;
+import com.example.model.ZahtevKredit;
 
 
-rule "osnovni uslovi zahteva za kredit"
+rule "ne sme suma preko trista hiljada"
     when
-        $z: ZahtevKredit()
+        $z: ZahtevKredit(iznos > 300000)
     then
-        update($z);
+    System.out.println("pravilo se okinulo");
+    $z.setStatus(false);
+    $z.setOdgovor("Iznos ne sme biti veci od 300000 evra.");
 end
