@@ -34,6 +34,9 @@ public class ZahtevKredit {
 	
 	private String odgovor;
 	
+	@OneToOne(targetEntity = Klijent.class)
+	private Klijent klijent;
+
 	@OneToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "kredit_id", nullable = true)
 	private Kredit kredit;
@@ -117,6 +120,14 @@ public class ZahtevKredit {
 
 	public void setOdgovor(String odgovor) {
 		this.odgovor = odgovor;
+	}
+
+	public Klijent getKlijent() {
+		return klijent;
+	}
+
+	public void setKlijent(Klijent klijent) {
+		this.klijent = klijent;
 	}
 	
 }

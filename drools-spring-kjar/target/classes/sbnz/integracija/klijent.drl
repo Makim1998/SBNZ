@@ -1,0 +1,35 @@
+package sbnz.integracija;
+
+import com.example.model.Klijent;
+import com.example.model.ZahtevKredit;
+import com.example.model.Kredit;
+import com.example.model.TipKredita;
+
+rule "ne sme stariji 65 godina, period duzi od 10"
+    when
+        $z: ZahtevKredit( klijent.getGodine() > 65, period > 120)
+    then
+    $z.setStatus(false);
+    $z.setOdgovor("Za klijente starije od 65 godina period isplate mora biti kraci od 10 godina.");
+end
+
+rule "osnovna rata veca od 30% korisnikovih primanja"
+    when
+        $z: ZahtevKredit( iznos / period > 0.3 * klijent.getMesecna_zarada())
+    then
+    $z.setStatus(false);
+    $z.setOdgovor("Osnovna mesecna rata premasuje 30% vasih primanja.");
+end
+
+rule "dva ili vise potrosakih ili investicionih kredita"
+    when
+        $z: ZahtevKredit($krediti : klijent.getKrediti())
+        Number (intValue >= 2) from accumulate(
+        	Kredit($t: this, this.getZahtev().getTipKredita() != TipKredita.STAMBENI) from $krediti,
+        	count($t)
+        )
+    then
+    $z.setStatus(false);
+    $z.setOdgovor("Vec ste podigli dva ili vise investicionih i potrosackih kredita.");
+end
+ 

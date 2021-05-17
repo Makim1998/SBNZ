@@ -1,6 +1,7 @@
 package sbnz.integracija;
 
 import com.example.model.ZahtevKredit;
+import com.example.model.TipKredita;
 
 
 rule "ne sme suma preko trista hiljada"
@@ -11,3 +12,52 @@ rule "ne sme suma preko trista hiljada"
     $z.setStatus(false);
     $z.setOdgovor("Iznos ne sme biti veci od 300000 evra.");
 end
+
+rule "ne sme suma manja od hiljadu"
+    when
+        $z: ZahtevKredit(iznos < 1000)
+    then
+    $z.setStatus(false);
+    $z.setOdgovor("Iznos ne sme biti manji od 1000 evra.");
+end
+
+rule "ne sme period duzi od 25 godina"
+    when
+        $z: ZahtevKredit(period > 300)
+    then
+    $z.setStatus(false);
+    $z.setOdgovor("Period isplate ne sme biti duzi od 25 godina.");
+end
+
+rule "ne sme period kraci od godine"
+    when
+        $z: ZahtevKredit(period < 12)
+    then
+    $z.setStatus(false);
+    $z.setOdgovor("Period isplate ne sme biti kraci od godinu dana.");
+end
+
+rule "ne sme tip kredita stambeni a suma manja od 20000"
+    when
+        $z: ZahtevKredit(tipKredita == TipKredita.STAMBENI, iznos < 20000)
+    then
+    $z.setStatus(false);
+    $z.setOdgovor("Za stambeni kredit suma mora biti preko 20000 evra.");
+end
+
+rule "ne sme tip kredita investicioni a suma manja od 0000"
+    when
+        $z: ZahtevKredit(tipKredita == TipKredita.INVESTICIONI, iznos < 40000)
+    then
+    $z.setStatus(false);
+    $z.setOdgovor("Za investicioni kredit suma mora biti preko 40000 evra.");
+end
+
+rule "ne sme tip kredita potrtosacki a suma preko od 20000"
+    when
+        $z: ZahtevKredit(tipKredita == TipKredita.POTROSACKI, iznos > 30000)
+    then
+    $z.setStatus(false);
+    $z.setOdgovor("Za potrosacki kredit suma mora biti manja od 30000 evra.");
+end
+

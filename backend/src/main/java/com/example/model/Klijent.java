@@ -25,7 +25,7 @@ public class Klijent {
 	
 	private double mesecna_zarada;
 	
-	@OneToMany(mappedBy = "klijent", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "klijent", fetch = FetchType.EAGER)
 	private List<Kredit> krediti;
 	
 	@OneToMany(mappedBy = "klijent", fetch = FetchType.LAZY)

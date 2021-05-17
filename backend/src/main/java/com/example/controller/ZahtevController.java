@@ -15,6 +15,7 @@ import com.example.dto.ZahtevDTO;
 import com.example.mapper.ZahtevMapper;
 import com.example.model.ZahtevKredit;
 import com.example.service.KieService;
+import com.example.service.UserService;
 import com.example.service.ZahtevService;
 
 @RestController
@@ -23,6 +24,9 @@ public class ZahtevController {
 	
 	@Autowired
 	private ZahtevService zahtevService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private ZahtevMapper zahtevMapper;
@@ -36,6 +40,9 @@ public class ZahtevController {
 		ZahtevKredit zk = zahtevMapper.map(zahtevDTO);
 		zk.setStatus(true);
 		zk.setOdgovor("Zahtev uspeo.");
+		if (this.userService.currentUser().getKlijent() != null) {
+			zk.setKlijent(this.userService.currentUser().getKlijent());
+		}
 		zk = (ZahtevKredit) this.kieService.addObjectToSession(zk);
 		System.out.println(zk.getOdgovor());
 		this.zahtevService.save(zk);
