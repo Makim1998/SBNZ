@@ -53,7 +53,7 @@ rule "ne sme tip kredita investicioni a suma manja od 0000"
     $z.setOdgovor("Za investicioni kredit suma mora biti preko 40000 evra.");
 end
 
-rule "ne sme tip kredita potrtosacki a suma preko od 20000"
+rule "ne sme tip kredita potrtosacki a suma ispod od 20000"
     when
         $z: ZahtevKredit(tipKredita == TipKredita.POTROSACKI, iznos > 30000)
     then

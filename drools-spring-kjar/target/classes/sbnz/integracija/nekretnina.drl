@@ -1,0 +1,53 @@
+package sbnz.integracija;
+
+import com.example.model.Nekretnina;
+import com.example.model.TipNekretnine;
+import com.example.model.ZonaNekretnine;
+
+rule "stan zona I"
+    when
+        $n: Nekretnina(tip == TipNekretnine.STAN, zona == ZonaNekretnine.I, $k: kvadratura)
+    then
+    System.out.println("pravilo stan zona I");
+	$n.setProcenjenaVrednost(1300 * $k * 1.3);
+end
+
+rule "stan zona II"
+    when
+        $n: Nekretnina(tip == TipNekretnine.STAN, zona == ZonaNekretnine.II, $k: kvadratura)
+    then
+    System.out.println("pravilo stan zona II");
+	$n.setProcenjenaVrednost(1200 * $k * 1.3);
+end
+
+rule "stan zona III"
+    when
+        $n: Nekretnina(tip == TipNekretnine.STAN, zona == ZonaNekretnine.III, $k: kvadratura)
+    then
+    System.out.println("pravilo stan zona III");
+	$n.setProcenjenaVrednost(1100 * $k * 1.3);
+end
+
+rule "kuca zona I"
+    when
+        $n: Nekretnina(tip == TipNekretnine.KUCA, zona == ZonaNekretnine.I, $k: kvadratura)
+    then
+    System.out.println("pravilo kuca zona I");
+	$n.setProcenjenaVrednost(1300 * $k * 1.1);
+end
+
+rule "kuca zona II"
+    when
+        $n: Nekretnina(tip == TipNekretnine.KUCA, zona == ZonaNekretnine.II, $k: kvadratura)
+    then
+    System.out.println("pravilo kuca zona II");
+	$n.setProcenjenaVrednost(1200 * $k * 1.1);
+end
+
+rule "kuca zona III"
+    when
+        $n: Nekretnina(tip == TipNekretnine.KUCA, zona == ZonaNekretnine.III, $k: kvadratura)
+    then
+    System.out.println("pravilo kuca zona III");
+	$n.setProcenjenaVrednost(1100 * $k * 1.1);
+end
