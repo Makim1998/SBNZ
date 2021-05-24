@@ -6,7 +6,7 @@ import com.example.model.TipKredita;
 
 rule "ne sme suma preko trista hiljada"
     when
-        $z: ZahtevKredit(iznos > 300000)
+        $z: ZahtevKredit(iznos > 300000, status != false)
     then
     System.out.println("pravilo se okinulo");
     $z.setStatus(false);
@@ -15,15 +15,15 @@ end
 
 rule "ne sme suma manja od hiljadu"
     when
-        $z: ZahtevKredit(iznos < 1000)
+        $z: ZahtevKredit(iznos < 1000, status != false)
     then
-    $z.setStatus(false);
-    $z.setOdgovor("Iznos ne sme biti manji od 1000 evra.");
+	$z.setStatus(false);
+	$z.setOdgovor("Iznos ne sme biti manji od 1000 evra.");
 end
 
 rule "ne sme period duzi od 25 godina"
     when
-        $z: ZahtevKredit(period > 300)
+        $z: ZahtevKredit(period > 300, status != false)
     then
     $z.setStatus(false);
     $z.setOdgovor("Period isplate ne sme biti duzi od 25 godina.");
@@ -31,31 +31,31 @@ end
 
 rule "ne sme period kraci od godine"
     when
-        $z: ZahtevKredit(period < 12)
+        $z: ZahtevKredit(period < 12, status != false)
     then
     $z.setStatus(false);
     $z.setOdgovor("Period isplate ne sme biti kraci od godinu dana.");
 end
 
-rule "ne sme tip kredita stambeni a suma manja od 20000"
+rule "ne sme tip kredita stambeni a suma manja od 20000" salience -1
     when
-        $z: ZahtevKredit(tipKredita == TipKredita.STAMBENI, iznos < 20000)
+        $z: ZahtevKredit(tipKredita == TipKredita.STAMBENI, iznos < 20000, status != false)
     then
     $z.setStatus(false);
     $z.setOdgovor("Za stambeni kredit suma mora biti preko 20000 evra.");
 end
 
-rule "ne sme tip kredita investicioni a suma manja od 0000"
+rule "ne sme tip kredita investicioni a suma manja od 40000" salience -1
     when
-        $z: ZahtevKredit(tipKredita == TipKredita.INVESTICIONI, iznos < 40000)
+        $z: ZahtevKredit(tipKredita == TipKredita.INVESTICIONI, iznos < 40000, status != false)
     then
     $z.setStatus(false);
-    $z.setOdgovor("Za investicioni kredit suma mora biti preko 40000 evra.");
+    $z.setOdgovor("Osnovna mesecna rata premasuje 30% vasih primanja.");
 end
 
-rule "ne sme tip kredita potrtosacki a suma ispod od 20000"
+rule "ne sme tip kredita potrtosacki a suma ispod od 20000" salience -1
     when
-        $z: ZahtevKredit(tipKredita == TipKredita.POTROSACKI, iznos > 30000)
+        $z: ZahtevKredit(tipKredita == TipKredita.POTROSACKI, iznos > 30000, status != false)
     then
     $z.setStatus(false);
     $z.setOdgovor("Za potrosacki kredit suma mora biti manja od 30000 evra.");

@@ -74,11 +74,11 @@ rule "osnovna kamata je 6% 60000 < iznos <= 100000, 10 < period <= 15"
     $z.getKredit().setKamata(6);
 end
 
-rule "osnovna kamata je 6% iznos > 100000, period > 10"
+rule "osnovna kamata je 6% iznos > 100000, period > 15"
     when
-        $z: ZahtevKredit(iznos > 100000, period > 10 * 12, kredit != null)
+        $z: ZahtevKredit(iznos > 100000, period > 15 * 12, kredit != null)
     then
-    System.out.println("osnovna kamata je 6% iznos > 100000, period > 10");
+    System.out.println("osnovna kamata je 6% iznos > 100000, period > 15");
     $z.getKredit().setKamata(6);
 end
 
@@ -103,7 +103,7 @@ rule "osnovna kamata je 8% 30000 < iznos <= 60000, period > 10"
         $z: ZahtevKredit(iznos > 30000, iznos <= 60000, period > 10 * 12, kredit != null)
     then
     System.out.println("osnovna kamata je 8% 30000 < iznos <= 60000, period > 10");
-    $z.getKredit().setKamata(6);
+    $z.getKredit().setKamata(8);
 end
 
 rule "osnovna kamata je 8% 60000 < iznos <= 100000, period > 15"
