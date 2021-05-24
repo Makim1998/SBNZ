@@ -37,7 +37,7 @@ public class ZahtevKredit {
 	@OneToOne(targetEntity = Klijent.class)
 	private Klijent klijent;
 
-	@OneToOne(fetch = FetchType.LAZY, optional = true)
+	@OneToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "kredit_id", nullable = true)
 	private Kredit kredit;
 	

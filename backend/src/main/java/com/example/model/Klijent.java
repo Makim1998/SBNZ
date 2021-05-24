@@ -31,7 +31,7 @@ public class Klijent {
 	@OneToMany(mappedBy = "klijent", fetch = FetchType.LAZY)
 	private List<Transakcija> transakcije;
 	
-    @OneToOne(mappedBy = "klijent", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "klijent", fetch = FetchType.EAGER)
     private Hipoteka hipoteka;
 	
 	private int nagradni_poeni;

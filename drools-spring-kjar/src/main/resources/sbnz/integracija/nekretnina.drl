@@ -3,6 +3,8 @@ package sbnz.integracija;
 import com.example.model.Nekretnina;
 import com.example.model.TipNekretnine;
 import com.example.model.ZonaNekretnine;
+import com.example.model.Hipoteka;
+import com.example.model.ZahtevKredit;
 
 rule "stan zona I"
     when
@@ -50,4 +52,22 @@ rule "kuca zona III"
     then
     System.out.println("pravilo kuca zona III");
 	$n.setProcenjenaVrednost(1100 * $k * 1.1);
+end
+
+rule "hipoteka konacni uslov"
+    when
+        $z: ZahtevKredit($h: klijent.getHipoteka(), $i: iznos)
+        Number (intValue ==  $h.getNekretnine().size()) from accumulate(
+        	Nekretnina($t: this, procenjenaVrednost != 0) from $h.getNekretnine(),
+        	count($t)
+        )
+        Number (doubleValue <= 1.2 * $i) from accumulate(
+        	Nekretnina($t: this, procenjenaVrednost != 0) from $h.getNekretnine(),
+        	sum($t.getProcenjenaVrednost())
+        )
+        
+    then
+    System.out.println("pravilo hipoteka");
+	$z.setStatus(false);
+    $z.setOdgovor("Procenjena vrednost hipoteke ne premasuje 120 % trazene kreditne sume");
 end
