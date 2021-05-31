@@ -1,0 +1,101 @@
+package sbnz.integracija;
+
+import com.example.model.Klijent;
+import com.example.model.Kredit;
+import com.example.model.TipTransakcije;
+import com.example.event.TransactionEvent;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+
+function int currentDayMonth(){
+    Date currentDate=new Date(); //current date
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(currentDate); 
+    return cal.get(Calendar.DAY_OF_MONTH);
+}
+
+declare WarningEvent
+    @role(event)
+    clientId: Long
+    reason: String
+end
+
+rule "mesecna rata dovoljno na racunu"
+	agenda-group "mesecna-isplata"
+    when
+        $k: Kredit($klijent: klijent, $r: mesecna_rata, $d: datumRate)
+        $s: Double() from $klijent.getStanjeRacun() 
+        eval($s >= $r) and eval($d == currentDayMonth()) 
+    then
+    	$klijent.setStanjeRacun($s - $r);
+end
+
+
+rule "mesecna rata nedovoljno na racunu - upozorenje"
+	agenda-group "mesecna-isplata"
+    when
+        $k: Kredit($klijent: klijent, $r: mesecna_rata, $d: datumRate)
+        $s: Double() from $klijent.getStanjeRacun()
+        $cId: Long() from $klijent.getId()
+        eval($s < $r) and eval($d == currentDayMonth()) 
+    then
+       	insert(new WarningEvent($cId, "Nemate dovoljno novca na racunu"));
+end
+
+rule "vise od 3 upozorenja u zadnjih godinu dana"
+    when
+        $t1: WarningEvent($cId: clientId)
+        Number(intValue >= 3) from accumulate(
+            $t2: WarningEvent(
+                this != $t1, 
+                clientId == $cId, 
+                this meets[8760h] $t1
+            ),
+            count($t2)
+        )
+        not (WarningEvent(clientId == $cId, reason=="3 upozorenja u proteklih godinu dana"))
+    then
+        insert(new WarningEvent($cId, "3 upozorenja u proteklih godinu dana"));
+end
+
+rule "u jednom danu 3 transakcije iznos veci od 3000"
+    when
+        $t1: TransactionEvent($cId: clientId)
+        $transakcije: List(size >= 3) from collect(
+            $t2: TransactionEvent(
+                this != $t1, 
+                clientId == $cId, 
+                tip == TipTransakcije.ISPLATA,
+                this meets[24h] $t1
+            )
+        )
+        Number(doubleValue >= 3000) from accumulate(
+        	$t3: TransactionEvent(
+				$s: totalAmount
+            ) from $transakcije,
+        	sum($s)
+        )
+        not (WarningEvent(clientId == $cId, reason== "3 transakcije tipa isplata ukupno preko 3000 eura u proteklih 24 sata"))
+    then
+        insert(new WarningEvent($cId, "3 transakcije tipa isplata ukupno preko 3000 eura u proteklih 24 sata"));
+end
+
+rule "u jednom danu 3 transakcije iznos svake veci od 500"
+    when
+        $t1: TransactionEvent($cId: clientId)
+        Number(intValue >= 3) from accumulate(
+        	$t2: TransactionEvent(
+				this != $t1, 
+                clientId == $cId, 
+                tip == TipTransakcije.ISPLATA,
+               	totalAmount > 500,
+                this meets[1h] $t1
+            ),
+        	count($t2)
+        )
+        not (WarningEvent(clientId == $cId, reason== "3 transakcije tipa isplata svaka preko 500 eura u proteklih sat vremena"))
+    then
+        insert(new WarningEvent($cId, "3 transakcije tipa isplata svaka preko 500 eura u proteklih sat vremena"));
+end

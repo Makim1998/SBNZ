@@ -34,6 +34,8 @@ public class Klijent {
     @OneToOne(mappedBy = "klijent", fetch = FetchType.EAGER)
     private Hipoteka hipoteka;
 	
+    private double stanjeRacun;
+    
 	private int nagradni_poeni;
 
 	public Klijent() {
@@ -41,13 +43,14 @@ public class Klijent {
 	}
 
 	public Klijent(Long id, int godine, double mesecna_zarada, List<Kredit> krediti, List<Transakcija> transakcije,
-			int nagradni_poeni) {
+			double stanjeRacun, int nagradni_poeni) {
 		super();
 		this.id = id;
 		this.godine = godine;
 		this.mesecna_zarada = mesecna_zarada;
 		this.krediti = krediti;
 		this.transakcije = transakcije;
+		this.stanjeRacun = stanjeRacun;
 		this.nagradni_poeni = nagradni_poeni;
 	}
 
@@ -97,6 +100,14 @@ public class Klijent {
 
 	public void setHipoteka(Hipoteka hipoteka) {
 		this.hipoteka = hipoteka;
+	}
+
+	public double getStanjeRacun() {
+		return stanjeRacun;
+	}
+
+	public void setStanjeRacun(double stanjeRacun) {
+		this.stanjeRacun = stanjeRacun;
 	}
 
 	public int getNagradni_poeni() {

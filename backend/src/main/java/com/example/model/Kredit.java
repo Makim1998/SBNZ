@@ -21,9 +21,11 @@ public class Kredit {
 	@OneToOne(mappedBy = "kredit", fetch = FetchType.LAZY)
 	private ZahtevKredit zahtev;
 	
-	private int mesecna_rata;
+	private double mesecna_rata;
 	
 	private int kamata;
+	
+	private int datumRate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "klijent_id", nullable = true)
@@ -33,12 +35,13 @@ public class Kredit {
 		super();
 	}
 
-	public Kredit(Long id, ZahtevKredit zahtev, int mesecna_rata, int kamata) {
+	public Kredit(Long id, ZahtevKredit zahtev, double mesecna_rata, int kamata, int datumRate) {
 		super();
 		this.id = id;
 		this.zahtev = zahtev;
 		this.mesecna_rata = mesecna_rata;
 		this.kamata = kamata;
+		this.datumRate = datumRate;
 	}
 
 	public Long getId() {
@@ -57,11 +60,11 @@ public class Kredit {
 		this.zahtev = zahtev;
 	}
 
-	public int getMesecna_rata() {
+	public double getMesecna_rata() {
 		return mesecna_rata;
 	}
 
-	public void setMesecna_rata(int mesecna_rata) {
+	public void setMesecna_rata(double mesecna_rata) {
 		this.mesecna_rata = mesecna_rata;
 	}
 
@@ -73,6 +76,14 @@ public class Kredit {
 		this.kamata = kamata;
 	}
 
+	public int getDatumRate() {
+		return datumRate;
+	}
+
+	public void setDatumRate(int datumRate) {
+		this.datumRate = datumRate;
+	}
+
 	public Klijent getKlijent() {
 		return klijent;
 	}
@@ -80,5 +91,5 @@ public class Kredit {
 	public void setKlijent(Klijent klijent) {
 		this.klijent = klijent;
 	}
-
+	
 }

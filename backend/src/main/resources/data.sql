@@ -12,5 +12,5 @@ values ('marko@gmail.com', '$2a$10$VpH.INOqjymPVNZ986HWkuTWPXMjk68d5AD/9Iu5gO846
 insert into user_authority (user_id, authority_id) values (1, 1);
 insert into user_authority (user_id, authority_id) values (2, 2);
 
-insert into klijent_table (godine, mesecna_zarada, nagradni_poeni) values (66, 600, 0);
+insert into klijent_table (godine, mesecna_zarada, nagradni_poeni, stanje_racun) values (66, 600, 0,5000);
 update user_table set klijent_id = 1 where id = 2;

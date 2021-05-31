@@ -1,5 +1,7 @@
 package com.example.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,6 +26,8 @@ public class Transakcija {
 	@NotBlank
 	private TipTransakcije tip;
 	
+	private Date datum;
+	
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "klijent_id", nullable = false)
 	private Klijent klijent;
@@ -32,11 +36,12 @@ public class Transakcija {
 		super();
 	}
 
-	public Transakcija(Long id, @NotBlank double iznos, @NotBlank TipTransakcije tip, Klijent klijent) {
+	public Transakcija(Long id, @NotBlank double iznos, @NotBlank TipTransakcije tip, Date datum, Klijent klijent) {
 		super();
 		this.id = id;
 		this.iznos = iznos;
 		this.tip = tip;
+		this.datum = datum;
 		this.klijent = klijent;
 	}
 
@@ -62,6 +67,14 @@ public class Transakcija {
 
 	public void setTip(TipTransakcije tip) {
 		this.tip = tip;
+	}
+
+	public Date getDatum() {
+		return datum;
+	}
+
+	public void setDatum(Date datum) {
+		this.datum = datum;
 	}
 
 	public Klijent getKlijent() {
