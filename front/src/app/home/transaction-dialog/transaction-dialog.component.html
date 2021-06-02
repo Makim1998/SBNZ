@@ -1,0 +1,46 @@
+<div class="spacer">
+    <span></span>
+    <button 
+    mat-icon-button 
+    (click)="dialogRef.close()">
+        <mat-icon matTooltip="close" matTooltipPosition="above">close</mat-icon>
+    </button>
+</div>
+<div>
+    <h2>Nova transakcija</h2>
+    <form [formGroup]="transactionForm">
+        <div [class.disabled]="transactionPending">
+            <mat-form-field>
+                <mat-label>Iznos</mat-label>
+                <input 
+                matInput 
+                type = "number"
+                autocomplete="off"
+                formControlName="iznos">
+                <mat-error>
+                    Unesite iznos!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Tip transakcije</mat-label>
+                <mat-select formControlName="tip">
+                  <mat-option *ngFor="let tip of tipovi" [value]="tip">
+                    {{tip}}
+                  </mat-option>
+                </mat-select>
+                <mat-error>
+                  Unesite tip transakcije!
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <br>
+        <app-center-container>
+            <button 
+            *ngIf="!transactionPending"
+            mat-raised-button 
+            color="primary"
+            (click)="transaction()">Posalji</button>
+            <app-spinner-button *ngIf="transactionPending"></app-spinner-button>
+        </app-center-container>
+    </form>
+</div>

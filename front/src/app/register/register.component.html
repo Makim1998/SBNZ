@@ -1,0 +1,102 @@
+<app-form-container>
+    <h2>Registracija</h2>
+    <form [formGroup]="registerForm">
+        <div [class.disabled]="registerPending">
+            <mat-form-field>
+                <mat-label>Ime</mat-label>
+                <input 
+                matInput 
+                autocomplete="off"
+                formControlName="ime" 
+                placeholder="Unesite ime">
+                <mat-error>
+                    Unesite ime!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Prezime</mat-label>
+                <input 
+                matInput 
+                autocomplete="off"
+                formControlName="prezime" 
+                placeholder="Unesite prezime">
+                <mat-error>
+                    Unesite prezime!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Godine</mat-label>
+                <input 
+                matInput 
+                type="number"
+                autocomplete="off"
+                formControlName="godine" 
+                placeholder="Unesite godine">
+                <mat-error>
+                    Unesite godine!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Mesecni prihodi u evrima</mat-label>
+                <input 
+                matInput 
+                type="number"
+                autocomplete="off"
+                formControlName="mesecna_zarada" 
+                placeholder="Unesite mesecne prihode">
+                <mat-error>
+                    Unesite mesecne prihode!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input 
+                matInput 
+                autocomplete="off"
+                formControlName="email" 
+                placeholder="Unesite email">
+                <mat-error>
+                    Unesite email!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Lozinka</mat-label>
+                <input 
+                type="password" 
+                matInput 
+                autocomplete="off"
+                formControlName="password"
+                placeholder="Unesite lozinku">
+                <mat-error>
+                    Unesite lozinku!
+                </mat-error>  
+                 
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Ponovite lozinku</mat-label>
+                <input 
+                type="password" 
+                matInput 
+                autocomplete="off"
+                formControlName="passwordConfirmation"
+                placeholder="Ponovite lozinku">
+                <mat-error>
+                    Ponovite lozinku!
+                </mat-error> 
+            </mat-form-field>  
+        </div>
+        <br>
+        <app-center-container>
+            <button 
+            *ngIf="!registerPending"
+            mat-raised-button 
+            color="primary"
+            (click)="register()">Registruj se</button>
+            <app-spinner-button *ngIf="registerPending"></app-spinner-button>
+        </app-center-container>
+        <app-center-container>
+            <mat-icon [ngStyle]="{'color':'black'}">login</mat-icon>
+            <a routerLink="">Prijavi se</a>
+        </app-center-container>
+    </form>
+</app-form-container>

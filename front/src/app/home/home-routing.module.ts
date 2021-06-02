@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HOME_PATH, REQUEST_PATH } from '../constants/routes';
+import { TRANSACTIONS_PATH, REQUEST_PATH, REQUEST_SEQUEL_PATH } from '../constants/routes';
 import { HomeComponent } from './home.component';
+import { RequestSequelComponent } from './request-sequel/request-sequel.component';
 import { RequestComponent } from './request/request.component';
+import { TransactionsComponent } from './transactions/transactions.component';
 
 const routes: Routes = [
   {
@@ -12,6 +14,14 @@ const routes: Routes = [
       {
         path: REQUEST_PATH,
         component: RequestComponent
+      },
+      {
+        path: REQUEST_SEQUEL_PATH,
+        component: RequestSequelComponent
+      },
+      {
+        path: TRANSACTIONS_PATH,
+        component: TransactionsComponent
       }
     ]
 },];

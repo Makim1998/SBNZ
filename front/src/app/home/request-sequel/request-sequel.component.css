@@ -1,0 +1,24 @@
+table {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th.mat-header-cell {
+    text-align: center;
+    font-size: 15px;
+    color: #050505;
+}
+
+td.mat-cell {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+div {
+    margin-left: 20px;
+    margin-right: 20px;
+}

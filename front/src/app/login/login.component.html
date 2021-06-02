@@ -1,5 +1,5 @@
 <app-form-container>
-    <h2>Log In</h2>
+    <h2>Prijava</h2>
     <form [formGroup]="loginForm">
         <div [class.disabled]="loginPending">
             <mat-form-field>
@@ -8,21 +8,21 @@
                 matInput 
                 autocomplete="off"
                 formControlName="email" 
-                placeholder="Enter email">
+                placeholder="Unesite email">
                 <mat-error>
-                    Email is required!
+                    Unesite email!
                 </mat-error>
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Password</mat-label>
+                <mat-label>Lozinka</mat-label>
                 <input 
                 type="password" 
                 matInput 
                 autocomplete="off"
                 formControlName="password"
-                placeholder="Enter password">
+                placeholder="Unesite lozinku">
                 <mat-error>
-                    Password is required!
+                    Unesite lozinku!
                 </mat-error>    
             </mat-form-field>
         </div>
@@ -32,8 +32,12 @@
             *ngIf="!loginPending"
             mat-raised-button 
             color="primary"
-            (click)="login()">Login</button>
+            (click)="login()">Prijavi se</button>
             <app-spinner-button *ngIf="loginPending"></app-spinner-button>
+        </app-center-container>
+        <app-center-container>
+            <mat-icon [ngStyle]="{'color':'black'}">person_add</mat-icon>
+            <a routerLink="register">Registruj se</a>
         </app-center-container>
     </form>
 </app-form-container>

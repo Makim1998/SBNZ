@@ -23,9 +23,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatTableModule } from '@angular/material/table'
 import { FormContainerComponent } from './form-container/form-container.component';
 import { CenterContainerComponent } from './center-container/center-container.component';
 import { SpinnerButtonComponent } from './spinner-button/spinner-button.component';
+
 
 @NgModule({
   declarations: [
@@ -70,6 +72,7 @@ import { SpinnerButtonComponent } from './spinner-button/spinner-button.componen
     MatSnackBarModule,
     MatExpansionModule,
     MatDatepickerModule,
+    MatTableModule,
     MatNativeDateModule
   ]
 })

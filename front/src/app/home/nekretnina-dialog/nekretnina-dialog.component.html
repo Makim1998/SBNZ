@@ -1,0 +1,53 @@
+<div class="spacer">
+    <span></span>
+    <button 
+    mat-icon-button 
+    (click)="dialogRef.close()">
+        <mat-icon matTooltip="close" matTooltipPosition="above">close</mat-icon>
+    </button>
+</div>
+<div>
+    <h2>Nova nekretnina</h2>
+    <form [formGroup]="nekretninaForm">
+        <mat-form-field>
+            <mat-label>Kvadratura</mat-label>
+            <input 
+            matInput 
+            type = "number"
+            autocomplete="off"
+            formControlName="kvadratura">
+            <mat-error>
+                Unesite kvadraturu!
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Tip nekretnine</mat-label>
+            <mat-select formControlName="tip">
+                <mat-option *ngFor="let tip of tipovi" [value]="tip">
+                {{tip}}
+                </mat-option>
+            </mat-select>
+            <mat-error>
+                Unesite tip nekretnine!
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Zona nekretnine</mat-label>
+            <mat-select formControlName="zona">
+                <mat-option *ngFor="let zona of zone" [value]="zona">
+                {{zona}}
+                </mat-option>
+            </mat-select>
+            <mat-error>
+                Unesite zonu nekretnine!
+            </mat-error>
+        </mat-form-field>
+        <br>
+        <app-center-container>
+            <button 
+            mat-raised-button 
+            color="primary"
+            (click)="nekretnina()">Dodaj</button>
+        </app-center-container>
+    </form>
+</div>

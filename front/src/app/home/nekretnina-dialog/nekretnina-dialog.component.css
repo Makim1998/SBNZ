@@ -1,3 +1,10 @@
+div.spacer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .mat-form-field {
     display: block;
 }    
@@ -9,19 +16,4 @@
 }
 .mat-form-field-appearance-outline .mat-form-field-infix {
     padding: 0.1em 0 0.5em 0 
-}
-
-.mat-icon {
-    padding-top: 20px;
-}  
-
-a {
-    padding: 25px 8px 8px 8px;
-    text-decoration: none;
-    color: #0a0a0a;
-    transition: 0.3s;
-}
-
-a:hover {
-    color: #167ca1;
 }
