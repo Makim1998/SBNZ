@@ -1,0 +1,45 @@
+package sbnz.integracija;
+
+import com.example.model.Klijent;
+import com.example.model.Kredit;
+import com.example.model.ZahtevKredit;
+import com.example.model.TipGarancije;
+import com.example.model.TipKredita;
+
+import java.util.List;
+
+declare Score
+	percentConditions: double;
+	numPoints: int;
+end
+
+
+rule "1 nagradni poen" 
+    when
+    agenda-group "nagradni-bod"
+        $zahtev: ZahtevKredit($suma: iznos, $klijent = klijent)
+        $brojKredita: Integer() from $klijent.getKrediti().size();
+    then
+    	int prviUslov = $suma > 10000 ? 1 : 0; 
+    	int drugiUslov = $brojKredita == 0 ? 1 : 0;
+    	int treciUslov = $zahtev.getTipGarancije() == TipGarancije.HIPOTEKA ? 1 : 0;
+    	Score score = new Score();
+    	score.setPercentConditions((prviUslov + drugiUslov + treciUslov) / 3.0);
+    	score.setNumPoints(1);
+        insert(score);
+end
+
+rule "1 nagradni poen" 
+    when
+    agenda-group "nagradni-bod"
+        $zahtev: ZahtevKredit($suma: iznos, $klijent = klijent, $tip: tipKredita)
+        $brojKredita: Integer() from $klijent.getKrediti().size();
+    then
+    	int prviUslov = $suma > 10000 ? 1 : 0; 
+    	int drugiUslov = $brojKredita == 0 ? 1 : 0;
+    	int treciUslov = ($tip == TipKredita.STAMBENI || $tip == TipKredita.INVESTICIONI) ? 1 : 0;
+    	Score score = new Score();
+    	score.setPercentConditions((prviUslov + drugiUslov + treciUslov) / 3.0);
+    	score.setNumPoints(1);
+        insert(score);
+end

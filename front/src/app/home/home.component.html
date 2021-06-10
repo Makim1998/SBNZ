@@ -3,7 +3,7 @@
         <a routerLink="request">Zahtev za kredit</a>
         <a routerLink="transactions">Transakcije</a>
         <a>Krediti</a>
-        <a><mat-icon [ngStyle]="{'color':'white'}">logout</mat-icon> Odjavi se</a>
+        <a (click)="signOut()"><mat-icon [ngStyle]="{'color':'white'}">logout</mat-icon> Odjavi se</a>
     </div>
     <div class="content">
         <router-outlet></router-outlet>

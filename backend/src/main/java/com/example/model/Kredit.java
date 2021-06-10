@@ -27,7 +27,7 @@ public class Kredit {
 	
 	private int datumRate;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "klijent_id", nullable = true)
 	private Klijent klijent;
 

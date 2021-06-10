@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.List;
+
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ public class KieService {
     @Autowired
     public KieService(KieContainer kieContainer) {
         this.kieContainer = kieContainer;
+        this.trackingSession = kieContainer.newKieSession();
     }
     
     public Object addObjectToSession(Object o) {
@@ -31,15 +34,25 @@ public class KieService {
         return o;
     }
     
+    public Object addObjectToTrackingSession(Object o) {
+    	this.trackingSession.getAgenda().getAgendaGroup("cep").setFocus();
+        trackingSession.insert(o);
+        trackingSession.fireAllRules();
+        System.out.println(trackingSession.getFactCount());
+        return o;
+    }
+    
     @Scheduled(cron="0 0 11 * * ?")
-    public void addCreditstoTrackingSession() {
-        this.trackingSession = kieContainer.newKieSession();
+    public List<Kredit> addCreditstoTrackingSession() {
+    	trackingSession = this.kieContainer.newKieSession();
         trackingSession.getAgenda().getAgendaGroup("mesecna-isplata").setFocus();
     	System.out.println("poziv metode za dnevnu proveru skidanja mesecne rate kredita");
-    	for (Kredit k: this.kreditService.findAllByDayOfPay()) {
+    	List<Kredit> krediti = this.kreditService.findAllByDayOfPay();
+    	for (Kredit k: krediti ) {
     		this.trackingSession.insert(k);
     	}
     	trackingSession.fireAllRules();
-    	trackingSession.dispose();
+		return krediti;
     }
+    
 }

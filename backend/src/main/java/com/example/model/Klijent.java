@@ -1,5 +1,6 @@
 package com.example.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -52,6 +53,16 @@ public class Klijent {
 		this.transakcije = transakcije;
 		this.stanjeRacun = stanjeRacun;
 		this.nagradni_poeni = nagradni_poeni;
+	}
+	
+	public Klijent(int godine, double mesecna_zarada) {
+		super();
+		this.godine = godine;
+		this.mesecna_zarada = mesecna_zarada;
+		this.krediti = new ArrayList<Kredit>();
+		this.transakcije = new ArrayList<Transakcija>();
+		this.stanjeRacun = 0;
+		this.nagradni_poeni = 0;
 	}
 
 	public Long getId() {

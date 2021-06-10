@@ -1,5 +1,7 @@
 package com.example.dto;
 
+import javax.validation.constraints.NotBlank;
+
 import com.example.model.User;
 
 public class ProfileDTO {
@@ -7,9 +9,20 @@ public class ProfileDTO {
 	private long id;
 	private String accessToken;
 	private String role;
+	
+	@NotBlank
 	private String email;
+	
+	@NotBlank
+	private String password;
+	
+	@NotBlank
 	private String firstName;
+	
+	@NotBlank
 	private String lastName;
+	private double mesecna_zarada;
+	private int godine;
 	
 	public ProfileDTO() {
 		super();
@@ -57,6 +70,14 @@ public class ProfileDTO {
 		this.email = email;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -71,6 +92,22 @@ public class ProfileDTO {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public double getMesecna_zarada() {
+		return mesecna_zarada;
+	}
+
+	public void setMesecna_zarada(double mesecna_zarada) {
+		this.mesecna_zarada = mesecna_zarada;
+	}
+
+	public int getGodine() {
+		return godine;
+	}
+
+	public void setGodine(int godine) {
+		this.godine = godine;
 	}
 
 }

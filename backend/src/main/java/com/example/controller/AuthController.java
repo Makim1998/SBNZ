@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dto.LoginDTO;
 import com.example.dto.ProfileDTO;
+import com.example.mapper.UserMapper;
 import com.example.model.User;
 import com.example.security.TokenUtils;
+import com.example.service.KlijentService;
 import com.example.service.UserService;
 
 
@@ -28,7 +30,13 @@ public class AuthController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private KlijentService klijentService;
 
+	@Autowired
+	private UserMapper mapper;
+	
 	@Autowired
 	private TokenUtils tokenUtils;
 		
@@ -37,7 +45,6 @@ public class AuthController {
 	
 	@PostMapping(value = "/login")
 	public ResponseEntity<ProfileDTO> login(@Valid @RequestBody LoginDTO loginDTO){
-		System.out.println("merhaba");
 		this.authManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
 		String accessToken = this.tokenUtils.generateToken(loginDTO.getEmail());
 		System.out.println(accessToken);
@@ -45,6 +52,20 @@ public class AuthController {
 		System.out.println("loged user");
 		System.out.println(user.getFirstName());
 		return new ResponseEntity<>(new ProfileDTO(user, accessToken), HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/register")
+	public ResponseEntity<ProfileDTO> register(@Valid @RequestBody ProfileDTO profileDTO){
+		System.out.println("registracija");
+		User user = (User) this.userService.loadUserByUsername(profileDTO.getEmail());
+		if(user != null) {
+			System.out.println("korisnicko ime zauzeto");
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		User u = this.mapper.map(profileDTO);
+		klijentService.save(u.getKlijent());
+		userService.save(u);
+		return new ResponseEntity<ProfileDTO>(profileDTO, HttpStatus.OK);
 	}
 		
 }

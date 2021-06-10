@@ -44,29 +44,13 @@ rule "mesecna rata nedovoljno na racunu - upozorenje"
        	insert(new WarningEvent($cId, "Nemate dovoljno novca na racunu"));
 end
 
-rule "vise od 3 upozorenja u zadnjih godinu dana"
-    when
-        $t1: WarningEvent($cId: clientId)
-        Number(intValue >= 3) from accumulate(
-            $t2: WarningEvent(
-                this != $t1, 
-                clientId == $cId, 
-                this meets[8760h] $t1
-            ),
-            count($t2)
-        )
-        not (WarningEvent(clientId == $cId, reason=="3 upozorenja u proteklih godinu dana"))
-    then
-        insert(new WarningEvent($cId, "3 upozorenja u proteklih godinu dana"));
-end
 
 rule "u jednom danu 3 transakcije iznos veci od 3000"
     when
-        $t1: TransactionEvent($cId: clientId)
+        $t1: TransactionEvent($cId: client.getId())
         $transakcije: List(size >= 3) from collect(
             $t2: TransactionEvent(
-                this != $t1, 
-                clientId == $cId, 
+                client.getId() == $cId, 
                 tip == TipTransakcije.ISPLATA,
                 this meets[24h] $t1
             )
@@ -79,17 +63,17 @@ rule "u jednom danu 3 transakcije iznos veci od 3000"
         )
         not (WarningEvent(clientId == $cId, reason== "3 transakcije tipa isplata ukupno preko 3000 eura u proteklih 24 sata"))
     then
+    	System.out.println("3 transakcije tipa isplata ukupno preko 3000 eura u proteklih 24 sata");
         insert(new WarningEvent($cId, "3 transakcije tipa isplata ukupno preko 3000 eura u proteklih 24 sata"));
 end
 
-rule "u jednom danu 3 transakcije iznos svake veci od 500"
+rule "u jednom satu 3 transakcije iznos svake veci od 500"
     when
-        $t1: TransactionEvent($cId: clientId)
+        $t1: TransactionEvent($cId: client.getId())
         Number(intValue >= 3) from accumulate(
         	$t2: TransactionEvent(
-				this != $t1, 
-                clientId == $cId, 
-                tip == TipTransakcije.ISPLATA,
+                client.getId() == $cId, 
+           	    tip == TipTransakcije.ISPLATA,
                	totalAmount > 500,
                 this meets[1h] $t1
             ),
@@ -97,5 +81,6 @@ rule "u jednom danu 3 transakcije iznos svake veci od 500"
         )
         not (WarningEvent(clientId == $cId, reason== "3 transakcije tipa isplata svaka preko 500 eura u proteklih sat vremena"))
     then
+    	System.out.println("3 transakcije tipa isplata svaka preko 500 eura u proteklih sat vremena");
         insert(new WarningEvent($cId, "3 transakcije tipa isplata svaka preko 500 eura u proteklih sat vremena"));
 end

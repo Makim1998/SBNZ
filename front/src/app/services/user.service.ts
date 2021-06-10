@@ -23,4 +23,10 @@ export class UserService {
     );
   }
 
+  register(user: User): Observable<User>{
+    return this.http.post<User>(`${this.API_AUTH}/register`, user).pipe(
+      catchError(() => of(null))
+    );
+  }
+
 }

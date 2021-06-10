@@ -7,7 +7,7 @@
                 <input 
                 matInput 
                 autocomplete="off"
-                formControlName="ime" 
+                formControlName="firstName" 
                 placeholder="Unesite ime">
                 <mat-error>
                     Unesite ime!
@@ -18,7 +18,7 @@
                 <input 
                 matInput 
                 autocomplete="off"
-                formControlName="prezime" 
+                formControlName="lastName" 
                 placeholder="Unesite prezime">
                 <mat-error>
                     Unesite prezime!
@@ -56,7 +56,7 @@
                 formControlName="email" 
                 placeholder="Unesite email">
                 <mat-error>
-                    Unesite email!
+                    Unesite validan email!
                 </mat-error>
             </mat-form-field>
             <mat-form-field>
@@ -70,7 +70,6 @@
                 <mat-error>
                     Unesite lozinku!
                 </mat-error>  
-                 
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Ponovite lozinku</mat-label>
@@ -81,7 +80,7 @@
                 formControlName="passwordConfirmation"
                 placeholder="Ponovite lozinku">
                 <mat-error>
-                    Ponovite lozinku!
+                    Lozinke se ne poklapaju!
                 </mat-error> 
             </mat-form-field>  
         </div>

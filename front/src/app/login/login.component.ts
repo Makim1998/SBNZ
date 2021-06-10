@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/home']);
           }
           else{
-            this.snackBar.open(SNACKBAR_ERROR, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+            this.snackBar.open("Pogresni email ili lozinka!", SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
           }
         }
       );

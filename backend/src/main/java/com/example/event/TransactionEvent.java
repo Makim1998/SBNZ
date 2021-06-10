@@ -7,6 +7,7 @@ import org.kie.api.definition.type.Expires;
 import org.kie.api.definition.type.Role;
 import org.kie.api.definition.type.Timestamp;
 
+import com.example.model.Klijent;
 import com.example.model.TipTransakcije;
 
 @Role(Role.Type.EVENT)
@@ -16,7 +17,7 @@ public class TransactionEvent implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Date executionTime;
-    private Long clientId;
+    private Klijent client;
     private Double totalAmount;
     private TipTransakcije tip;
 
@@ -24,10 +25,10 @@ public class TransactionEvent implements Serializable {
         super();
     }
     
-    public TransactionEvent(Long customerId, Double totalAmount, TipTransakcije tip) {
+    public TransactionEvent(Klijent client, Double totalAmount, TipTransakcije tip) {
         super();
         this.executionTime = new Date();
-        this.clientId = customerId;
+        this.client = client;
         this.totalAmount = totalAmount;
         this.tip = tip;
     }
@@ -48,12 +49,12 @@ public class TransactionEvent implements Serializable {
         this.totalAmount = totalAmount;
     }
 
-	public Long getClientId() {
-		return clientId;
+	public Klijent getClient() {
+		return client;
 	}
 
-	public void setClientId(Long clientId) {
-		this.clientId = clientId;
+	public void setClient(Klijent client) {
+		this.client = client;
 	}
 
 	public TipTransakcije getTip() {
