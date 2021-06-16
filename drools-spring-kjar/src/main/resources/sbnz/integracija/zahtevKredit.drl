@@ -5,6 +5,7 @@ import com.example.model.TipKredita;
 
 
 rule "ne sme suma preko trista hiljada"
+	agenda-group "zahtev"
     when
         $z: ZahtevKredit(iznos > 300000, status != false)
     then
@@ -14,6 +15,7 @@ rule "ne sme suma preko trista hiljada"
 end
 
 rule "ne sme suma manja od hiljadu"
+	agenda-group "zahtev"
     when
         $z: ZahtevKredit(iznos < 1000, status != false)
     then
@@ -22,6 +24,7 @@ rule "ne sme suma manja od hiljadu"
 end
 
 rule "ne sme period duzi od 25 godina"
+	agenda-group "zahtev"
     when
         $z: ZahtevKredit(period > 300, status != false)
     then
@@ -30,6 +33,7 @@ rule "ne sme period duzi od 25 godina"
 end
 
 rule "ne sme period kraci od godine"
+	agenda-group "zahtev"
     when
         $z: ZahtevKredit(period < 12, status != false)
     then
@@ -38,6 +42,7 @@ rule "ne sme period kraci od godine"
 end
 
 rule "ne sme tip kredita stambeni a suma manja od 20000" salience -1
+	agenda-group "zahtev"
     when
         $z: ZahtevKredit(tipKredita == TipKredita.STAMBENI, iznos < 20000, status != false)
     then
@@ -46,6 +51,7 @@ rule "ne sme tip kredita stambeni a suma manja od 20000" salience -1
 end
 
 rule "ne sme tip kredita investicioni a suma manja od 40000" salience -1
+	agenda-group "zahtev"
     when
         $z: ZahtevKredit(tipKredita == TipKredita.INVESTICIONI, iznos < 40000, status != false)
     then
@@ -54,6 +60,7 @@ rule "ne sme tip kredita investicioni a suma manja od 40000" salience -1
 end
 
 rule "ne sme tip kredita potrtosacki a suma ispod od 20000" salience -1
+	agenda-group "zahtev"
     when
         $z: ZahtevKredit(tipKredita == TipKredita.POTROSACKI, iznos > 30000, status != false)
     then

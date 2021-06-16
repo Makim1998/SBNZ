@@ -4,6 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SNACKBAR_CLOSE, SNACKBAR_ERROR, SNACKBAR_ERROR_OPTIONS, SNACKBAR_SUCCESS_OPTIONS } from '../../constants/snackbar';
 import { RequestService } from 'src/app/services/request.service';
 import { RequestCredit } from '../../models/request'
+import { REQUEST_SEQUEL_PATH } from 'src/app/constants/routes';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-request',
@@ -17,8 +19,9 @@ export class RequestComponent implements OnInit {
 
   constructor(
     public requestService: RequestService,
-    public snackBar: MatSnackBar
-
+    public snackBar: MatSnackBar,
+    public router: Router,
+    private route: ActivatedRoute
   ) { }
 
   requestPending = false;
@@ -43,6 +46,9 @@ export class RequestComponent implements OnInit {
         this.requestPending = false;
         if(request.status){
           this.snackBar.open(request.odgovor, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
+          console.log(request.garancija);
+          console.log(request.id);
+          this.router.navigate(['home/request-sequel', request.garancija === 'HIPOTEKA' ? 'hipoteka': 'zirant', request.id]);
         }
         else{
           this.snackBar.open(request.odgovor, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);

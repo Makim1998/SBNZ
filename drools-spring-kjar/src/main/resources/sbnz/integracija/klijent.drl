@@ -6,6 +6,7 @@ import com.example.model.Kredit;
 import com.example.model.TipKredita;
 
 rule "ne sme stariji 65 godina, period duzi od 10"
+	agenda-group "zahtev"
     when
         $z: ZahtevKredit( klijent.getGodine() > 65, period > 120)
     then
@@ -14,6 +15,7 @@ rule "ne sme stariji 65 godina, period duzi od 10"
 end
 
 rule "osnovna rata veca od 30% korisnikovih primanja"
+	agenda-group "zahtev"
     when
         $z: ZahtevKredit( iznos / period > 0.3 * klijent.getMesecna_zarada())
     then
@@ -22,6 +24,7 @@ rule "osnovna rata veca od 30% korisnikovih primanja"
 end
 
 rule "dva ili vise potrosakih ili investicionih kredita"
+	agenda-group "zahtev"
     when
         $z: ZahtevKredit($krediti : klijent.getKrediti())
         Number (intValue >= 2) from accumulate(

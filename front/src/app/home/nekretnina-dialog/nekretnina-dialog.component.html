@@ -23,8 +23,8 @@
         <mat-form-field appearance="fill">
             <mat-label>Tip nekretnine</mat-label>
             <mat-select formControlName="tip">
-                <mat-option *ngFor="let tip of tipovi" [value]="tip">
-                {{tip}}
+                <mat-option *ngFor="let tip of tipovi" [value]="tip.value">
+                {{tip.view}}
                 </mat-option>
             </mat-select>
             <mat-error>
@@ -34,8 +34,8 @@
         <mat-form-field appearance="fill">
             <mat-label>Zona nekretnine</mat-label>
             <mat-select formControlName="zona">
-                <mat-option *ngFor="let zona of zone" [value]="zona">
-                {{zona}}
+                <mat-option *ngFor="let zona of zone" [value]="zona.value">
+                {{zona.view}}
                 </mat-option>
             </mat-select>
             <mat-error>

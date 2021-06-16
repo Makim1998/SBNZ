@@ -1,4 +1,5 @@
 export interface RequestCredit{
+    id: number;
     iznos: number;
     period: number;
     tip: string;

@@ -40,6 +40,7 @@ public class UserMapper {
 	@Transactional
 	public ProfileDTO map(User user) {
 		ProfileDTO profile = new ProfileDTO();
+		profile.setId(user.getId());
 		Klijent k = user.getKlijent();
 		if (k != null) {
 			profile.setMesecna_zarada(k.getMesecna_zarada());

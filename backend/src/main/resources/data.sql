@@ -16,3 +16,4 @@ insert into klijent_table (godine, mesecna_zarada, nagradni_poeni, stanje_racun)
 update user_table set klijent_id = 1 where id = 2;
 
 insert into kredit (mesecna_rata, kamata, datum_rate, klijent_id) values (300, 5, 31, 1);
+insert into zahtevi_table (iznos, period, tip_kredita, tip_garancije, status, klijent_id, kredit_id) values (30000, 60, 1, 1, true, 1, 1);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Option } from 'src/app/models/option';
 
 @Component({
   selector: 'app-nekretnina-dialog',
@@ -13,8 +14,8 @@ export class NekretninaDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<NekretninaDialogComponent>
   ) { }
   
-  tipovi: string[] = ["STAN","KUCA"];
-  zone: string[] = ["I", "II", "III"];
+  tipovi: Option[] = [{view: "stan", value: 0}, {view: "kuca", value: 1}];
+  zone: Option[] = [{view: "I", value: 0}, {view: "II", value: 1}, {view:"III", value:2}];
 
   nekretninaForm: FormGroup = new FormGroup({
     kvadratura: new FormControl('', [Validators.required,

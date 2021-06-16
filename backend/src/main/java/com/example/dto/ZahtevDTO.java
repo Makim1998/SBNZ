@@ -7,6 +7,8 @@ import com.example.model.ZahtevKredit;
 
 public class ZahtevDTO {
 	
+	private long id;
+	
 	@NotNull
 	private double iznos;
 	
@@ -27,8 +29,9 @@ public class ZahtevDTO {
 		super();
 	}
 
-	public ZahtevDTO(double iznos, int period_isplate, String tip, String garancija, boolean status) {
+	public ZahtevDTO(long id, double iznos, int period_isplate, String tip, String garancija, boolean status) {
 		super();
+		this.id = id;
 		this.iznos = iznos;
 		this.period = period_isplate;
 		this.tip = tip;
@@ -38,12 +41,21 @@ public class ZahtevDTO {
 	
 	public ZahtevDTO(ZahtevKredit zahtev) {
 		super();
+		this.id = zahtev.getId();
 		this.iznos = zahtev.getIznos();
 		this.period = zahtev.getPeriod();
 		this.tip = zahtev.getTipKredita().toString();
 		this.garancija = zahtev.getTipGarancije().toString();
 		this.status = zahtev.isStatus();
 		this.odgovor = zahtev.getOdgovor();
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public double getIznos() {

@@ -29,4 +29,8 @@ export class UserService {
     );
   }
 
+  getAllClients(): Observable<User[]>{
+    return this.http.get<User[]>(`${environment.baseUrl}/users`);
+  }
+
 }

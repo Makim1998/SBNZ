@@ -69,14 +69,14 @@ public class UsloviZahteva {
 	
 	@Test
 	public void testPrihvacen() {
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev);
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "zahtev");
 		assertEquals("ok", z.getOdgovor());
 	}
 	
 	@Test
 	public void testOdbijen1() {
 		this.zahtev.setIznos(500000);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev);
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "zahtev");
 		assertEquals("Iznos ne sme biti veci od 300000 evra.", z.getOdgovor());
 		assertFalse(z.isStatus());
 	}
@@ -84,7 +84,7 @@ public class UsloviZahteva {
 	@Test
 	public void testOdbijen3() {
 		this.zahtev.setPeriod(301);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev);
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "zahtev");
 		assertEquals("Period isplate ne sme biti duzi od 25 godina.", z.getOdgovor());
 		assertFalse(z.isStatus());
 	}
@@ -92,7 +92,7 @@ public class UsloviZahteva {
 	@Test
 	public void testOdbijen4() {
 		this.zahtev.setPeriod(11);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev);
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "zahtev");
 		assertEquals("Period isplate ne sme biti kraci od godinu dana.", z.getOdgovor());
 		assertFalse(z.isStatus());
 	}
@@ -101,7 +101,7 @@ public class UsloviZahteva {
 	public void testOdbijen5() {
 		this.zahtev.setTipKredita(TipKredita.STAMBENI);
 		this.zahtev.setIznos(13000);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev);
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "zahtev");
 		assertEquals("Za stambeni kredit suma mora biti preko 20000 evra.", z.getOdgovor());
 		assertFalse(z.isStatus());
 	}
@@ -110,7 +110,7 @@ public class UsloviZahteva {
 	public void testOdbijen6() {
 		this.zahtev.setTipKredita(TipKredita.INVESTICIONI);
 		this.zahtev.setIznos(35000);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev);
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "zahtev");
 		assertEquals("Za investicioni kredit suma mora biti preko 40000 evra.", z.getOdgovor());
 		assertFalse(z.isStatus());
 	}
@@ -119,7 +119,7 @@ public class UsloviZahteva {
 	public void testOdbijen7() {
 		this.zahtev.setTipKredita(TipKredita.POTROSACKI);
 		this.zahtev.setIznos(40000);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev);
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "zahtev");
 		assertEquals("Za potrosacki kredit suma mora biti manja od 30000 evra.", z.getOdgovor());
 		assertFalse(z.isStatus());
 	}

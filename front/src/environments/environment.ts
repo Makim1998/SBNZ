@@ -6,7 +6,9 @@ export const environment = {
   production: false,
   baseUrl: 'http://localhost:8080',
   apiAuth: 'auth',
-  apiRequest: 'zahtevi'
+  apiUser: 'users',
+  apiRequest: 'zahtevi',
+  apiHipoteka: 'hipoteke'
 };
 
 /*

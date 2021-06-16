@@ -66,11 +66,11 @@ public class HipotekaTest {
 	public void testHipotekaOdbijena() {
 		List<Nekretnina> obradjeneneNekretnine = new ArrayList<Nekretnina>();
 		for (Nekretnina n: this.zahtev.getKlijent().getHipoteka().getNekretnine()) {
-			Nekretnina obradjena = (Nekretnina) this.kieService.addObjectToSession(n);
+			Nekretnina obradjena = (Nekretnina) this.kieService.addObjectToSession(n, "hipoteka");
 			obradjeneneNekretnine.add(obradjena);
 		}
 		this.zahtev.getKlijent().getHipoteka().setNekretnine(obradjeneneNekretnine);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev);
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "hipoteka");
 		assertEquals("Procenjena vrednost hipoteke ne premasuje 120 % trazene kreditne sume", z.getOdgovor());
 		assertFalse(z.isStatus());
 	}
@@ -80,11 +80,11 @@ public class HipotekaTest {
 		this.zahtev.setIznos(30000);
 		List<Nekretnina> obradjeneneNekretnine = new ArrayList<Nekretnina>();
 		for (Nekretnina n: this.zahtev.getKlijent().getHipoteka().getNekretnine()) {
-			Nekretnina obradjena = (Nekretnina) this.kieService.addObjectToSession(n);
+			Nekretnina obradjena = (Nekretnina) this.kieService.addObjectToSession(n, "hipoteka");
 			obradjeneneNekretnine.add(obradjena);
 		}
 		this.zahtev.getKlijent().getHipoteka().setNekretnine(obradjeneneNekretnine);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev);
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "hipoteka");
 		assertNull(z.getOdgovor());
 	}
 	

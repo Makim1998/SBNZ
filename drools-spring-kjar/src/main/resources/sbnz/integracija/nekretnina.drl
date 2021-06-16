@@ -7,6 +7,7 @@ import com.example.model.Hipoteka;
 import com.example.model.ZahtevKredit;
 
 rule "stan zona I"
+	agenda-group "hipoteka"
     when
         $n: Nekretnina(tip == TipNekretnine.STAN, zona == ZonaNekretnine.I, $k: kvadratura)
     then
@@ -15,6 +16,7 @@ rule "stan zona I"
 end
 
 rule "stan zona II"
+	agenda-group "hipoteka"
     when
         $n: Nekretnina(tip == TipNekretnine.STAN, zona == ZonaNekretnine.II, $k: kvadratura)
     then
@@ -23,6 +25,7 @@ rule "stan zona II"
 end
 
 rule "stan zona III"
+	agenda-group "hipoteka"
     when
         $n: Nekretnina(tip == TipNekretnine.STAN, zona == ZonaNekretnine.III, $k: kvadratura)
     then
@@ -31,6 +34,7 @@ rule "stan zona III"
 end
 
 rule "kuca zona I"
+	agenda-group "hipoteka"
     when
         $n: Nekretnina(tip == TipNekretnine.KUCA, zona == ZonaNekretnine.I, $k: kvadratura)
     then
@@ -39,6 +43,7 @@ rule "kuca zona I"
 end
 
 rule "kuca zona II"
+	agenda-group "hipoteka"
     when
         $n: Nekretnina(tip == TipNekretnine.KUCA, zona == ZonaNekretnine.II, $k: kvadratura)
     then
@@ -47,6 +52,7 @@ rule "kuca zona II"
 end
 
 rule "kuca zona III"
+	agenda-group "hipoteka"
     when
         $n: Nekretnina(tip == TipNekretnine.KUCA, zona == ZonaNekretnine.III, $k: kvadratura)
     then
@@ -55,6 +61,7 @@ rule "kuca zona III"
 end
 
 rule "hipoteka konacni uslov"
+	agenda-group "hipoteka"
     when
         $z: ZahtevKredit($h: klijent.getHipoteka(), $i: iznos)
         Number (intValue ==  $h.getNekretnine().size()) from accumulate(

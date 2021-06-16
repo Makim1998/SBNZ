@@ -30,5 +30,15 @@ public class KreditService {
         cal.setTime(currentDate);   
 		return this.kreditRepository.findAllByDatumRate(cal.get(Calendar.DAY_OF_MONTH));
 	}
+	
+	@Transactional(readOnly = false)
+	public Kredit save(Kredit k){
+		return this.kreditRepository.save(k);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Kredit> getForKlijent(long id){
+		return this.kreditRepository.findByKlijentId(id);
+	}
 
 }

@@ -25,5 +25,13 @@ public class ZahtevService {
 	public ZahtevKredit save(ZahtevKredit zahtev) {
 		return this.zahtevRepository.save(zahtev);
 	}
+
+	@Transactional(readOnly = true)
+	public ZahtevKredit findZahtevById(long id) {
+		if(this.zahtevRepository.findById(id).isPresent()){
+			return this.zahtevRepository.findById(id).get();
+		}
+		return null;
+	}
 							
 }

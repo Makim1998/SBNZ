@@ -26,8 +26,11 @@ public class KieService {
         this.trackingSession = kieContainer.newKieSession();
     }
     
-    public Object addObjectToSession(Object o) {
+    public Object addObjectToSession(Object o, String agenda) {
 	    KieSession kieSession = kieContainer.newKieSession();
+	    if(agenda != "") {
+	    	kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
+	    }
         kieSession.insert(o);
         kieSession.fireAllRules();
         kieSession.dispose();

@@ -1,14 +1,14 @@
-<div>
+<div *ngIf="hipoteka">
     <h2>Hipoteka</h2>
     <table mat-table [dataSource]="nekretnine" class="mat-elevation-z8">
         <ng-container matColumnDef="zona">
             <th mat-header-cell *matHeaderCellDef>Zona </th>
-            <td mat-cell *matCellDef="let element"> {{element.zona}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.zonaView}} </td>
         </ng-container>
         
         <ng-container matColumnDef="tip">
             <th mat-header-cell *matHeaderCellDef> Tip nekrentine </th>
-            <td mat-cell *matCellDef="let element"> {{element.tip}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.tipView}} </td>
         </ng-container>
     
         <ng-container matColumnDef="kvadratura">
@@ -37,4 +37,37 @@
         color="primary"
         (click)=nekretnina()>
         <mat-icon matTooltip="Nova nekretnina">add</mat-icon> Nova nekretnina</button>    
+    
+    <app-center-container>
+        <button 
+        mat-raised-button 
+        color="primary"
+        (click)=hipotekica()>
+         Posalji</button>
+    </app-center-container>   
+</div>
+<div *ngIf="!hipoteka">
+    <h2>Zirant</h2>
+    <form [formGroup]="zirantForm">
+        <div [class.disabled]="requestPending">
+            <mat-form-field appearance="fill" style="width: 40%;margin: auto;">
+                <mat-label>Odaberite ziranta (mora biti registrovan korisnik):</mat-label>
+                <mat-select formControlName="zirant">
+                    <mat-option *ngFor="let zirant of ziranti" [value]="zirant.id">
+                    {{zirant.firstName}} {{zirant.lastName}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>
+                    Unesite ziranta! 
+                </mat-error>
+            </mat-form-field>
+            <app-center-container>
+                <button 
+                mat-raised-button 
+                color="primary"
+                (click)=zirantic()>
+                    Posalji</button>
+            </app-center-container>
+        </div>
+    </form>
 </div>

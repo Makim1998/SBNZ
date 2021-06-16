@@ -16,7 +16,7 @@ const routes: Routes = [
         component: RequestComponent
       },
       {
-        path: REQUEST_SEQUEL_PATH,
+        path: `${REQUEST_SEQUEL_PATH}/:type/:request`,
         component: RequestSequelComponent
       },
       {

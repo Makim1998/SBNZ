@@ -26,7 +26,7 @@ public class ZahtevMapper {
 		else {
 			zahtev.setTipKredita(TipKredita.STAMBENI);
 		}
-		if (zahtevDTO.getTip().equals("hipoteka")) {
+		if (zahtevDTO.getGarancija().equals("hipoteka")) {
 			zahtev.setTipGarancije(TipGarancije.HIPOTEKA);
 		}
 		else {
