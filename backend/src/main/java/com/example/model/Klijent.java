@@ -1,6 +1,7 @@
 package com.example.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -38,13 +39,15 @@ public class Klijent {
     private double stanjeRacun;
     
 	private int nagradni_poeni;
+	
+	private Date pridruzen;
 
 	public Klijent() {
 		super();
 	}
 
 	public Klijent(Long id, int godine, double mesecna_zarada, List<Kredit> krediti, List<Transakcija> transakcije,
-			double stanjeRacun, int nagradni_poeni) {
+			double stanjeRacun, int nagradni_poeni, Date pridruzen) {
 		super();
 		this.id = id;
 		this.godine = godine;
@@ -53,6 +56,7 @@ public class Klijent {
 		this.transakcije = transakcije;
 		this.stanjeRacun = stanjeRacun;
 		this.nagradni_poeni = nagradni_poeni;
+		this.pridruzen = pridruzen;
 	}
 	
 	public Klijent(int godine, double mesecna_zarada) {
@@ -127,6 +131,14 @@ public class Klijent {
 
 	public void setNagradni_poeni(int nagradni_poeni) {
 		this.nagradni_poeni = nagradni_poeni;
+	}
+
+	public Date getPridruzen() {
+		return pridruzen;
+	}
+
+	public void setPridruzen(Date pridruzen) {
+		this.pridruzen = pridruzen;
 	}
 	
 }

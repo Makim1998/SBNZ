@@ -1,5 +1,7 @@
 package com.example.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,6 +28,8 @@ public class Kredit {
 	private int kamata;
 	
 	private int datumRate;
+	
+	private Date datumUgovora;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "klijent_id", nullable = true)
@@ -35,13 +39,14 @@ public class Kredit {
 		super();
 	}
 
-	public Kredit(Long id, ZahtevKredit zahtev, double mesecna_rata, int kamata, int datumRate) {
+	public Kredit(Long id, ZahtevKredit zahtev, double mesecna_rata, int kamata, int datumRate, Date datum) {
 		super();
 		this.id = id;
 		this.zahtev = zahtev;
 		this.mesecna_rata = mesecna_rata;
 		this.kamata = kamata;
 		this.datumRate = datumRate;
+		this.datumUgovora = datum;
 	}
 
 	public Long getId() {
@@ -82,6 +87,14 @@ public class Kredit {
 
 	public void setDatumRate(int datumRate) {
 		this.datumRate = datumRate;
+	}
+
+	public Date getDatumUgovora() {
+		return datumUgovora;
+	}
+
+	public void setDatumUgovora(Date datumUgovora) {
+		this.datumUgovora = datumUgovora;
 	}
 
 	public Klijent getKlijent() {

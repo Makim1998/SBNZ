@@ -1,5 +1,6 @@
 package com.example.mapper;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +34,7 @@ public class UserMapper {
 		authorities.add(authority);
 		user.setAuthorities(authorities);
 		Klijent klijent = new Klijent(profileDTO.getGodine(), profileDTO.getMesecna_zarada());
+		klijent.setPridruzen(new Date());
 		user.setKlijent(klijent);
 		return user;
 	}

@@ -7,12 +7,16 @@ import com.example.model.TipGarancije;
 import com.example.model.TipKredita;
 
 import java.util.List;
+import java.util.Date;
 
 declare Score
 	percentConditions: double;
 	numPoints: int;
 end
 
+function Date currentDate(){
+    return new Date();
+}
 
 rule "1 nagradni poen" 
     agenda-group "nagradniBod"
@@ -44,4 +48,155 @@ rule "1 nagradni poen"
     	score.setPercentConditions(brojIspunjenih / 3.0);
     	score.setNumPoints(1);
         insert(score);
+end
+
+rule "2 nagradni poen" 
+    agenda-group "nagradniBod"
+    when
+        $zahtev: ZahtevKredit($suma: iznos, $klijent: klijent)
+       	$prviUslov: Number(intValue >= 0) from accumulate(
+       		ZahtevKredit(tipKredita != TipKredita.POTROSACKI),
+       		init(int count = 0;),
+       		action(count = 1;),
+       		result(count)
+       	)
+       	$drugiUslov: Number(intValue >= 0) from accumulate(
+        	ZahtevKredit(iznos > 15000),
+        	init(int count = 0;),
+       		action(count = 1;),
+       		result(count)
+        )
+       	$treciUslov: Number(intValue >= 0) from accumulate(
+       		ZahtevKredit(klijent.getPridruzen().getTime() - currentDate().getTime() > 365 * 1000 * 60 * 60 * 24),
+       		init(int count = 0;),
+       		action(count = 1;),
+       		result(count)
+       	)
+    then
+    	int brojUslova = 3; 
+    	int brojIspunjenih = $prviUslov.intValue() + $drugiUslov.intValue() + $treciUslov.intValue();
+    	int poeni = 2;
+    	Score score = new Score();
+    	score.setPercentConditions(brojIspunjenih / 3.0);
+    	score.setNumPoints(2);
+        insert(score);
+end
+
+rule "4 nagradni poen" 
+    agenda-group "nagradniBod"
+    when
+       	$prviUslov: Number(intValue >= 0) from accumulate(
+       		ZahtevKredit(tipKredita == TipKredita.POTROSACKI),
+       		init(int count = 0;),
+       		action(count = 1;),
+       		result(count)
+       	)
+       	$drugiUslov: Number(intValue >= 0) from accumulate(
+        	ZahtevKredit(iznos > 25000),
+        	init(int count = 0;),
+       		action(count = 1;),
+       		result(count)
+        )
+       	$treciUslov: Number(intValue >= 0) from accumulate(
+       		ZahtevKredit(klijent.getPridruzen().getTime() - currentDate().getTime() > 365 * 1000 * 60 * 60 * 24),
+       		init(int count = 0;),
+       		action(count = 1;),
+       		result(count)
+       	)
+       	$cetvrtiUslov: Number(intValue >= 0) from accumulate(
+       		ZahtevKredit($klijent: klijent),
+       		init(int count = 0;),
+       		action(
+	       		if ($klijent.getKrediti().size() == 0){
+	       			count = 1;
+	       		}
+	       		else{
+	       			count = 0;
+       		}),
+       		result(count)
+       	)
+    then
+    	int brojUslova = 4; 
+    	int brojIspunjenih = $prviUslov.intValue() + $drugiUslov.intValue() + $treciUslov.intValue() + $cetvrtiUslov.intValue();
+    	int poeni = 4;
+    	Score score = new Score();
+    	score.setPercentConditions(brojIspunjenih / 4.0);
+    	score.setNumPoints(4);
+        insert(score);
+end
+
+rule "6 nagradni poen" 
+    agenda-group "nagradniBod"
+    when
+       	$prviUslov: Number(intValue >= 0) from accumulate(
+       		ZahtevKredit(tipKredita == TipKredita.STAMBENI),
+       		init(int count = 0;),
+       		action(count = 1;),
+       		result(count)
+       	)
+       	$drugiUslov: Number(intValue >= 0) from accumulate(
+        	ZahtevKredit(iznos > 50000),
+        	init(int count = 0;),
+       		action(count = 1;),
+       		result(count)
+        )
+       	$treciUslov: Number(intValue >= 0) from accumulate(
+       		ZahtevKredit(klijent.getPridruzen().getTime() - currentDate().getTime() > 365 * 1000 * 60 * 60 * 24),
+       		init(int count = 0;),
+       		action(count = 1;),
+       		result(count)
+       	)
+       	$cetvrtiUslov: Number(intValue >= 0) from accumulate(
+       		ZahtevKredit($klijent: klijent),
+       		init(int count = 0;),
+       		action(
+	       		if ($klijent.getKrediti().size() == 0){
+	       			count = 1;
+	       		}
+	       		else{
+	       			count = 0;
+       		}),
+       		result(count)
+       	)
+    then
+    	int brojUslova = 4; 
+    	int brojIspunjenih = $prviUslov.intValue() + $drugiUslov.intValue() + $treciUslov.intValue() + $cetvrtiUslov.intValue();
+    	int poeni = 4;
+    	Score score = new Score();
+    	score.setPercentConditions(brojIspunjenih / 4.0);
+    	score.setNumPoints(4);
+        insert(score);
+end
+
+rule "izracunaj dodatne" 
+    agenda-group "nagradniBod"
+    when
+    	$list: List() from collect(Score())
+    	$klijent: Klijent()
+        Number (intValue ==  4) from accumulate(
+        	Score($t: this) from $list,
+        	count($t)
+        )
+        $konacni: Number (intValue > 0) from accumulate(
+        	Score($procenat: percentConditions, $poeni: numPoints),
+        	init(int vodeciPoeni = 0; double vodeciProcenat = 0;)
+        	action(
+        		if(vodeciProcenat < 0.5){
+        			if($poeni > vodeciPoeni){
+        				vodeciPoeni = $poeni;
+        				vodeciProcenat = $procenat;
+        			}
+        		}
+        		else if ($procenat > 0.5){
+        			if($poeni > vodeciPoeni){
+        				vodeciPoeni = $poeni;
+        				vodeciProcenat = $procenat;
+        			}
+        		}
+        	),
+        	result(vodeciPoeni)
+        )
+    then
+        System.out.println("postavljanje nagradnih poena = " + $konacni.intValue());
+    	$klijent.setNagradni_poeni($klijent.getNagradni_poeni() + $konacni.intValue());
 end
