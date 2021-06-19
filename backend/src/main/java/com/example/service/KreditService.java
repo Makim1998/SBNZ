@@ -41,8 +41,9 @@ public class KreditService {
 		return this.kreditRepository.findByKlijentId(id);
 	}
 
-	public void delete(Kredit kredit) {
-		this.kreditRepository.delete(kredit);
+	@Transactional(readOnly = false)
+	public void delete(long id) {
+		this.kreditRepository.deleteById(id);
 	}
-
+	
 }

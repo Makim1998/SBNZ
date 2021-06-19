@@ -46,13 +46,20 @@ public class HipotekaController {
 		System.out.println("hipoteka");
 		Hipoteka h = hipotekaMapper.map(hipotekaDTO);
 		ZahtevKredit z = this.zahtevService.findZahtevById(id);
+		Hipoteka stara = z.getKlijent().getHipoteka();
 		z.getKlijent().setHipoteka(h);
 		z = (ZahtevKredit) this.kieService.addObjectToSession(z,"hipoteka");
 		System.out.println(z.isStatus());
 		if(!z.isStatus()) {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
-		this.hipotekaService.save(h);
+		if(stara != null) {
+			System.out.println("Klijent vec ima hipoteku");
+		}
+		else {
+			System.out.println("Prva hipoteka za klijenta");
+			this.hipotekaService.save(h);
+		}
 		return new ResponseEntity<ZahtevDTO>(zahtevMapper.map(z), HttpStatus.OK);
 	}
 

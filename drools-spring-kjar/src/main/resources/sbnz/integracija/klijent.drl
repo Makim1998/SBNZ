@@ -17,7 +17,7 @@ end
 rule "osnovna rata veca od 30% korisnikovih primanja"
 	agenda-group "zahtev"
     when
-        $z: ZahtevKredit( iznos / period > 0.3 * klijent.getMesecna_zarada())
+        $z: ZahtevKredit(iznos / period > 0.3 * klijent.getMesecna_zarada())
     then
     $z.setStatus(false);
     $z.setOdgovor("Osnovna mesecna rata premasuje 30% vasih primanja.");

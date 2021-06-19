@@ -69,7 +69,7 @@ rule "2 nagradni poen"
        		result(count)
         )
        	$treciUslov: Number(intValue >= 0) from accumulate(
-       		ZahtevKredit(klijent.getPridruzen().getTime() - currentDate().getTime() > 365 * 1000 * 60 * 60 * 24),
+       		ZahtevKredit(currentDate().getTime() - klijent.getPridruzen().getTime() > 365 * 1000 * 60 * 60 * 24),
        		init(int count = 0;),
        		action(count = 1;),
        		result(count)
@@ -102,7 +102,7 @@ rule "4 nagradni poen"
        		result(count)
         )
        	$treciUslov: Number(intValue >= 0) from accumulate(
-       		ZahtevKredit(klijent.getPridruzen().getTime() - currentDate().getTime() > 365 * 1000 * 60 * 60 * 24),
+       		ZahtevKredit(currentDate().getTime() - klijent.getPridruzen().getTime() > 365 * 1000 * 60 * 60 * 24),
        		init(int count = 0;),
        		action(count = 1;),
        		result(count)

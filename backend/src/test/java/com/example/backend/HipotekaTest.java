@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -54,22 +55,18 @@ public class HipotekaTest {
 		z.setTipKredita(TipKredita.STAMBENI);
 		
 		Klijent k = new Klijent();
+		k.setId(2L);
 		k.setGodine(50);
 		k.setMesecna_zarada(2500);
-		
+		k.setPridruzen(new Date());
 		z.setKlijent(k);
 		k.setHipoteka(h);
+		h.setKlijent(k);
 		this.zahtev = z;
 	}
 	
 	@Test
 	public void testHipotekaOdbijena() {
-		List<Nekretnina> obradjeneneNekretnine = new ArrayList<Nekretnina>();
-		for (Nekretnina n: this.zahtev.getKlijent().getHipoteka().getNekretnine()) {
-			Nekretnina obradjena = (Nekretnina) this.kieService.addObjectToSession(n, "hipoteka");
-			obradjeneneNekretnine.add(obradjena);
-		}
-		this.zahtev.getKlijent().getHipoteka().setNekretnine(obradjeneneNekretnine);
 		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "hipoteka");
 		assertEquals("Procenjena vrednost hipoteke ne premasuje 120 % trazene kreditne sume", z.getOdgovor());
 		assertFalse(z.isStatus());
@@ -78,12 +75,6 @@ public class HipotekaTest {
 	@Test
 	public void testHipotekaPrihvacena() {
 		this.zahtev.setIznos(30000);
-		List<Nekretnina> obradjeneneNekretnine = new ArrayList<Nekretnina>();
-		for (Nekretnina n: this.zahtev.getKlijent().getHipoteka().getNekretnine()) {
-			Nekretnina obradjena = (Nekretnina) this.kieService.addObjectToSession(n, "hipoteka");
-			obradjeneneNekretnine.add(obradjena);
-		}
-		this.zahtev.getKlijent().getHipoteka().setNekretnine(obradjeneneNekretnine);
 		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "hipoteka");
 		assertNull(z.getOdgovor());
 	}

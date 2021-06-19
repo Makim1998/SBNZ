@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -61,7 +62,8 @@ public class UsloviZahteva {
 		Klijent k = new Klijent();
 		k.setGodine(50);
 		k.setMesecna_zarada(25000);
-		
+		k.setPridruzen(new Date());
+
 		z.setKlijent(k);
 		k.setHipoteka(h);
 		this.zahtev = z;
@@ -111,7 +113,7 @@ public class UsloviZahteva {
 		this.zahtev.setTipKredita(TipKredita.INVESTICIONI);
 		this.zahtev.setIznos(35000);
 		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "zahtev");
-		assertEquals("Za investicioni kredit suma mora biti preko 40000 evra.", z.getOdgovor());
+		assertEquals("ne sme tip kredita investicioni a suma manja od 40000", z.getOdgovor());
 		assertFalse(z.isStatus());
 	}
 	

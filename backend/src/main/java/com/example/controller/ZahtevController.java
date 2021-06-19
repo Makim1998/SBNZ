@@ -1,9 +1,6 @@
 package com.example.controller;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -54,13 +51,8 @@ public class ZahtevController {
 		zk.setStatus(true);
 		zk.setOdgovor("Zahtev uspeo.");
 		Klijent k = this.userService.currentUser().getKlijent();
-		System.out.println("ne znam sta se desava zemlja je tako daleka");
+		System.out.println(k.getMesecna_zarada());
 		System.out.println(k.getKrediti().size());
-		if(k.getKrediti().size() == 0) {
-			System.out.println("krediti nisu inicijalizovani");
-			List<Kredit> krediti = new ArrayList<Kredit>();
-			k.setKrediti(krediti);
-		}
 		zk.setKlijent(this.userService.currentUser().getKlijent());
 		zk = (ZahtevKredit) this.kieService.addObjectToSession(zk, "zahtev");
 		System.out.println(zk.getOdgovor());

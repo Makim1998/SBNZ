@@ -3,6 +3,7 @@ package com.example.backend;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -53,12 +54,21 @@ public class OsnovnaKamataTest {
 		z.setTipKredita(TipKredita.STAMBENI);
 		
 		Kredit kredit = new Kredit();
+		kredit.setKamata(0);
+		kredit.setMesecna_rata(0);
+		kredit.setId(1L);
 		z.setKredit(kredit);
 		
 		Klijent k = new Klijent();
+		k.setId(2L);
 		k.setGodine(50);
 		k.setMesecna_zarada(25000);
-		
+		k.setPridruzen(new Date());
+		kredit.setKlijent(k);
+
+		k.setNagradni_poeni(0);
+		List<Kredit> krediti = new ArrayList<Kredit>();
+		k.setKrediti(krediti);
 		z.setKlijent(k);
 		k.setHipoteka(h);
 		this.zahtev = z;
@@ -68,7 +78,7 @@ public class OsnovnaKamataTest {
 	public void testKamata4a() {
 		this.zahtev.setIznos(8000);
 		this.zahtev.setPeriod(3 * 12);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "");
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "osnovnaKamata");
 		assertEquals(4, z.getKredit().getKamata(), 0.0001);
 	}
 	
@@ -76,7 +86,7 @@ public class OsnovnaKamataTest {
 	public void testKamata4b() {
 		this.zahtev.setIznos(20000);
 		this.zahtev.setPeriod(4 * 12);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "");
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "osnovnaKamata");
 		assertEquals(4, z.getKredit().getKamata(), 0.0001);
 	}
 	
@@ -84,13 +94,13 @@ public class OsnovnaKamataTest {
 	public void testKamata4c() {
 		this.zahtev.setIznos(50000);
 		this.zahtev.setPeriod(6 * 12);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "");
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "osnovnaKamata");
 		assertEquals(4, z.getKredit().getKamata(), 0.0001);
 	}
 	
 	@Test
 	public void testKamata4d() {
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "");
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "osnovnaKamata");
 		assertEquals(4, z.getKredit().getKamata(), 0.0001);
 	}
 	
@@ -98,7 +108,7 @@ public class OsnovnaKamataTest {
 	public void testKamata4e() {
 		this.zahtev.setIznos(100001);
 		this.zahtev.setPeriod(14 * 12);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "");
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "osnovnaKamata");
 		assertEquals(4, z.getKredit().getKamata(), 0.0001);
 	}
 	
@@ -106,7 +116,7 @@ public class OsnovnaKamataTest {
 	public void testKamata6a() {
 		this.zahtev.setIznos(8000);
 		this.zahtev.setPeriod(4 * 12);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "");
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "osnovnaKamata");
 		assertEquals(6, z.getKredit().getKamata(), 0.0001);
 	}
 	
@@ -114,7 +124,7 @@ public class OsnovnaKamataTest {
 	public void testKamata6b() {
 		this.zahtev.setIznos(20000);
 		this.zahtev.setPeriod(6 * 12);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "");
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "osnovnaKamata");
 		assertEquals(6, z.getKredit().getKamata(), 0.0001);
 	}
 	
@@ -122,14 +132,14 @@ public class OsnovnaKamataTest {
 	public void testKamata6c() {
 		this.zahtev.setIznos(50000);
 		this.zahtev.setPeriod(9 * 12);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "");
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "osnovnaKamata");
 		assertEquals(6, z.getKredit().getKamata(), 0.0001);
 	}
 	
 	@Test
 	public void testKamata6d() {
 		this.zahtev.setPeriod(12 * 12);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "");
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "osnovnaKamata");
 		assertEquals(6, z.getKredit().getKamata(), 0.0001);
 	}
 	
@@ -137,7 +147,7 @@ public class OsnovnaKamataTest {
 	public void testKamata6e() {
 		this.zahtev.setIznos(100001);
 		this.zahtev.setPeriod(16 * 12);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "");
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "osnovnaKamata");
 		assertEquals(6, z.getKredit().getKamata(), 0.0001);
 	}
 	
@@ -145,7 +155,7 @@ public class OsnovnaKamataTest {
 	public void testKamata8a() {
 		this.zahtev.setIznos(8000);
 		this.zahtev.setPeriod(6 * 12);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "");
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "osnovnaKamata");
 		assertEquals(8, z.getKredit().getKamata(), 0.0001);
 	}
 	
@@ -153,7 +163,7 @@ public class OsnovnaKamataTest {
 	public void testKamata8b() {
 		this.zahtev.setIznos(20000);
 		this.zahtev.setPeriod(9 * 12);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "");
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "osnovnaKamata");
 		assertEquals(8, z.getKredit().getKamata(), 0.0001);
 	}
 	
@@ -161,14 +171,14 @@ public class OsnovnaKamataTest {
 	public void testKamata8c() {
 		this.zahtev.setIznos(50000);
 		this.zahtev.setPeriod(12 * 12);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "");
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "osnovnaKamata");
 		assertEquals(8, z.getKredit().getKamata(), 0.0001);
 	}
 	
 	@Test
 	public void testKamata8d() {
 		this.zahtev.setPeriod(16 * 12);
-		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "");
+		ZahtevKredit z = (ZahtevKredit) this.kieService.addObjectToSession(this.zahtev, "osnovnaKamata");
 		assertEquals(8, z.getKredit().getKamata(), 0.0001);
 	}
 

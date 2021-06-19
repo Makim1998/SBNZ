@@ -56,7 +56,7 @@ rule "ne sme tip kredita investicioni a suma manja od 40000" salience -1
         $z: ZahtevKredit(tipKredita == TipKredita.INVESTICIONI, iznos < 40000, status != false)
     then
     $z.setStatus(false);
-    $z.setOdgovor("Osnovna mesecna rata premasuje 30% vasih primanja.");
+    $z.setOdgovor("ne sme tip kredita investicioni a suma manja od 40000");
 end
 
 rule "ne sme tip kredita potrtosacki a suma ispod od 20000" salience -1

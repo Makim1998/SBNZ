@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,16 +45,30 @@ public class KreditController {
 		return new ResponseEntity<List<KreditDTO>>(this.kreditService.getForKlijent(cid).stream().map(k -> this.kreditMapper.map(k)).collect(Collectors.toList()), HttpStatus.OK);
 	}
 	
-	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> deleteCredit(@PathVariable long id){
-		System.out.println("odbijanje ponude");
+	@PostMapping(value = "/{id}/{dan}")
+	public ResponseEntity<Void> deleteCredit(@PathVariable long id, @PathVariable int dan){
+		System.out.println("prihvatanje ponude i ugovaranje datuma");
+		System.out.println(id);
 		ZahtevKredit zahtev = this.zahtevService.findZahtevById(id);
-		Kredit kredit = zahtev.getKredit();
-		zahtev.setKredit(null);
-		this.zahtevService.save(zahtev);
-		System.out.println("brisanje kredita");
-		this.kreditService.delete(kredit);
+		Kredit k = zahtev.getKredit();
+		k.setDatumRate(dan);
+		this.kreditService.save(k);
 		System.out.println("uspelo");
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> deleteCredit(@PathVariable long id){
+		System.out.println("odbijanje ponude");
+		System.out.println(id);
+		ZahtevKredit zahtev = this.zahtevService.findZahtevById(id);
+		long kreditId = zahtev.getKredit().getId();
+		zahtev.setKredit(null);
+		this.zahtevService.save(zahtev);
+		System.out.println("brisanje kredita");
+		this.kreditService.delete(kreditId);
+		System.out.println("uspelo");
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 }

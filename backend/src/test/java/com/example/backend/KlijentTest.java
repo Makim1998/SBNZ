@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -59,6 +60,8 @@ public class KlijentTest {
 		Klijent k = new Klijent();
 		k.setGodine(50);
 		k.setMesecna_zarada(2500);
+		k.setPridruzen(new Date());
+
 		
 		z.setKlijent(k);
 		k.setHipoteka(h);

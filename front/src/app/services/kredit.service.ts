@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Credit } from '../models/credit';
 import { Offer } from '../models/offer';
@@ -29,7 +29,17 @@ export class KreditService {
     return this.http.get<Credit[]>(this.API_CREDIT);
   }
 
-  declineOffer(id: number): Observable<void>{
-    return this.http.delete<void>(`${this.API_CREDIT}/${id}`);
+  acceptOffer(id: number, dan: number): Observable<boolean>{
+    return this.http.post(`${this.API_CREDIT}/${id}/${dan}`, null).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
+
+  declineOffer(id: number): Observable<boolean>{
+    return this.http.delete<null>(`${this.API_CREDIT}/${id}`).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
   }
 }

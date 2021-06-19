@@ -25,6 +25,11 @@ public class ZahtevService {
 	public ZahtevKredit save(ZahtevKredit zahtev) {
 		return this.zahtevRepository.save(zahtev);
 	}
+	
+	@Transactional(readOnly = false)
+	public void delete(long id) {
+		this.zahtevRepository.deleteById(id);
+	}
 
 	@Transactional(readOnly = true)
 	public ZahtevKredit findZahtevById(long id) {

@@ -22,10 +22,15 @@ export class CreditsComponent implements OnInit {
     this.getCredits();
   }
 
+  roundNumber(n: number): number{
+    return Math.round((n + Number.EPSILON) *100) /100;
+  }
+
   getCredits(): void {
     this.kreditService.getAllForUser().subscribe(
       (krediti: Credit[]) => {
       this.credits = krediti;
+      this.credits.map(c => {c.kamata = this.roundNumber(c.kamata); c.mesecna_rata = this.roundNumber(c.mesecna_rata);})
       this.table.renderRows();
     });
   }

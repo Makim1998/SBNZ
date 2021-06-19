@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.event.WarningEvent;
 import com.example.model.Kredit;
+import com.example.model.ZahtevKredit;
 
 @Service
 public class KieService {
@@ -38,6 +39,7 @@ public class KieService {
 	    	kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
 	    }
         kieSession.fireAllRules();
+        System.out.println(kieSession.getFactCount());
         kieSession.dispose();
         return o;
     }
