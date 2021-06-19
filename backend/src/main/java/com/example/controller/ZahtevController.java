@@ -1,6 +1,8 @@
 package com.example.controller;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -15,12 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.dto.PonudaDTO;
 import com.example.dto.ZahtevDTO;
 import com.example.mapper.ZahtevMapper;
 import com.example.model.Klijent;
 import com.example.model.Kredit;
 import com.example.model.ZahtevKredit;
 import com.example.service.KieService;
+import com.example.service.KreditService;
 import com.example.service.UserService;
 import com.example.service.ZahtevService;
 
@@ -30,6 +34,9 @@ public class ZahtevController {
 	
 	@Autowired
 	private ZahtevService zahtevService;
+	
+	@Autowired
+	private KreditService kreditService;
 	
 	@Autowired
 	private UserService userService;
@@ -62,10 +69,29 @@ public class ZahtevController {
 	}
 	
 	@PostMapping(value = "/{id}")
-	public ResponseEntity<ZahtevDTO> kredit(@Valid @PathVariable long id){
+	public ResponseEntity<PonudaDTO> kredit(@Valid @PathVariable long id){
 		System.out.println("racunanje osnovne kamate");
 		ZahtevKredit z = this.zahtevService.findZahtevById(id);
-		z = (ZahtevKredit) this.kieService.addObjectToSession(z, "zahtev");
-		return new ResponseEntity<>(zahtevMapper.map(z), HttpStatus.OK);
+		Kredit k = new Kredit();
+		k.setKamata(0);
+		k.setKlijent(z.getKlijent());
+		k.setMesecna_rata(0);
+		k.setZahtev(z);
+		z.setKredit(k);
+		z = (ZahtevKredit) this.kieService.addObjectToSession(z, "osnovnaKamata");
+		System.out.println(z.getKlijent().getNagradni_poeni());
+		System.out.println(z.getKredit().getKamata());
+		System.out.println(z.getKredit().getMesecna_rata());
+		System.out.println(z.isStatus());
+		if(!z.isStatus()) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		z.getKredit().setDatumUgovora(new Date());
+		z.getKredit().setDatumRate(15);
+		this.kreditService.save(z.getKredit());
+		this.zahtevService.save(z);
+		PonudaDTO p = new PonudaDTO(id, 15, z.getKredit().getKamata(), z.getKredit().getMesecna_rata());
+		return new ResponseEntity<PonudaDTO>(p, HttpStatus.OK);
 	}
+	
 }

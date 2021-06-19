@@ -47,6 +47,8 @@ rule "1 nagradni poen"
     	Score score = new Score();
     	score.setPercentConditions(brojIspunjenih / 3.0);
     	score.setNumPoints(1);
+    	System.out.println("1 bod");
+		System.out.println("broj ispunjenih" + brojIspunjenih);
         insert(score);
 end
 
@@ -79,6 +81,8 @@ rule "2 nagradni poen"
     	Score score = new Score();
     	score.setPercentConditions(brojIspunjenih / 3.0);
     	score.setNumPoints(2);
+    	System.out.println("2 bod");
+		System.out.println("broj ispunjenih" + brojIspunjenih);
         insert(score);
 end
 
@@ -122,6 +126,8 @@ rule "4 nagradni poen"
     	Score score = new Score();
     	score.setPercentConditions(brojIspunjenih / 4.0);
     	score.setNumPoints(4);
+    	System.out.println("4 bod");
+		System.out.println("broj ispunjenih" + brojIspunjenih);
         insert(score);
 end
 
@@ -164,7 +170,9 @@ rule "6 nagradni poen"
     	int poeni = 4;
     	Score score = new Score();
     	score.setPercentConditions(brojIspunjenih / 4.0);
-    	score.setNumPoints(4);
+    	score.setNumPoints(6);
+    	System.out.println("6 bod");
+		System.out.println("broj ispunjenih" + brojIspunjenih);
         insert(score);
 end
 
@@ -172,7 +180,7 @@ rule "izracunaj dodatne"
     agenda-group "nagradniBod"
     when
     	$list: List() from collect(Score())
-    	$klijent: Klijent()
+    	$zahtev: ZahtevKredit($klijent: klijent, $kredit: kredit)
         Number (intValue ==  4) from accumulate(
         	Score($t: this) from $list,
         	count($t)
@@ -181,8 +189,16 @@ rule "izracunaj dodatne"
         	Score($procenat: percentConditions, $poeni: numPoints),
         	init(int vodeciPoeni = 0; double vodeciProcenat = 0;)
         	action(
+        		System.out.println("vodeci = " + vodeciPoeni);
+        		System.out.println("vodeciProcenat = " + vodeciProcenat);
+        		System.out.println("trenutni = " + $poeni);
+        		System.out.println("trenutniProcenat = " + $procenat);
         		if(vodeciProcenat < 0.5){
-        			if($poeni > vodeciPoeni){
+        			if($poeni > vodeciPoeni && $procenat > 0){
+        				vodeciPoeni = $poeni;
+        				vodeciProcenat = $procenat;
+        			}
+        			if($procenat > 0.5){
         				vodeciPoeni = $poeni;
         				vodeciProcenat = $procenat;
         			}
@@ -199,4 +215,8 @@ rule "izracunaj dodatne"
     then
         System.out.println("postavljanje nagradnih poena = " + $konacni.intValue());
     	$klijent.setNagradni_poeni($klijent.getNagradni_poeni() + $konacni.intValue());
+    	insert($klijent);
+    	$kredit.setZahtev($zahtev);
+    	insert($kredit);
+    	kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("konacnaKamata").setFocus();
 end

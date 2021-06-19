@@ -8,7 +8,9 @@ export const environment = {
   apiAuth: 'auth',
   apiUser: 'users',
   apiRequest: 'zahtevi',
-  apiHipoteka: 'hipoteke'
+  apiHipoteka: 'hipoteke',
+  apiTransactions: 'transakcije',
+  apiCredits: 'krediti'
 };
 
 /*

@@ -4,6 +4,8 @@ import com.example.model.Klijent;
 import com.example.model.Kredit;
 import com.example.model.TipTransakcije;
 import com.example.event.TransactionEvent;
+import com.example.event.WarningEvent;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,11 +18,6 @@ function int currentDayMonth(){
     return cal.get(Calendar.DAY_OF_MONTH);
 }
 
-declare WarningEvent
-    @role(event)
-    clientId: Long
-    reason: String
-end
 
 rule "mesecna rata dovoljno na racunu"
 	agenda-group "mesecna-isplata"
@@ -41,7 +38,7 @@ rule "mesecna rata nedovoljno na racunu - upozorenje"
         $cId: Long() from $klijent.getId()
         eval($s < $r) and eval($d == currentDayMonth()) 
     then
-       	insert(new WarningEvent($cId, "Nemate dovoljno novca na racunu"));
+       	insert(new WarningEvent(new Date(), $cId, "Nemate dovoljno novca na racunu za mesecnu ratu kredita"));
 end
 
 
@@ -64,7 +61,7 @@ rule "u jednom danu 3 transakcije iznos veci od 3000"
         not (WarningEvent(clientId == $cId, reason== "3 transakcije tipa isplata ukupno preko 3000 eura u proteklih 24 sata"))
     then
     	System.out.println("3 transakcije tipa isplata ukupno preko 3000 eura u proteklih 24 sata");
-        insert(new WarningEvent($cId, "3 transakcije tipa isplata ukupno preko 3000 eura u proteklih 24 sata"));
+        insert(new WarningEvent(new Date(), $cId, "3 transakcije tipa isplata ukupno preko 3000 eura u proteklih 24 sata"));
 end
 
 rule "u jednom satu 3 transakcije iznos svake veci od 500"
@@ -82,5 +79,5 @@ rule "u jednom satu 3 transakcije iznos svake veci od 500"
         not (WarningEvent(clientId == $cId, reason== "3 transakcije tipa isplata svaka preko 500 eura u proteklih sat vremena"))
     then
     	System.out.println("3 transakcije tipa isplata svaka preko 500 eura u proteklih sat vremena");
-        insert(new WarningEvent($cId, "3 transakcije tipa isplata svaka preko 500 eura u proteklih sat vremena"));
+        insert(new WarningEvent(new Date(), $cId, "3 transakcije tipa isplata svaka preko 500 eura u proteklih sat vremena"));
 end

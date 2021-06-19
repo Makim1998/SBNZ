@@ -3,113 +3,141 @@ package sbnz.integracija;
 import com.example.model.ZahtevKredit;
 
 rule "osnovna kamata je 4% iznos < 10000, period < 3"
+	agenda-group "osnovnaKamata"
     when
         $z: ZahtevKredit(iznos <= 10000, period <= 3 * 12, kredit != null)
     then
     System.out.println("osnovna kamata je 4% iznos <= 10000, period <= 3");
     $z.getKredit().setKamata(4);
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("nagradniBod").setFocus();
 end
 
 rule "osnovna kamata je 4% 10000 < iznos <= 30000, period <= 5"
+	agenda-group "osnovnaKamata"
     when
         $z: ZahtevKredit(iznos > 10000, iznos <= 30000, period <= 5 * 12, kredit != null)
     then
     System.out.println("osnovna kamata je 4% 10000 < iznos <= 30000, period <= 5");
     $z.getKredit().setKamata(4);
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("nagradniBod").setFocus();
 end
 
 rule "osnovna kamata je 4% 30000 < iznos <= 60000, period <= 8"
+	agenda-group "osnovnaKamata"
     when
         $z: ZahtevKredit(iznos > 30000, iznos <= 60000, period <= 8 * 12, kredit != null)
     then
     System.out.println("osnovna kamata je 4% 30000 < iznos <= 60000, period <= 8");
     $z.getKredit().setKamata(4);
+   	kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("nagradniBod").setFocus(); 
 end
 
 rule "osnovna kamata je 4% 60000 < iznos <= 100000, period <= 10"
+	agenda-group "osnovnaKamata"
     when
         $z: ZahtevKredit(iznos > 60000, iznos <= 100000, period <= 10 * 12, kredit != null)
     then
     System.out.println("osnovna kamata je 4% 60000 < iznos <= 100000, period <= 10");
     $z.getKredit().setKamata(4);
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("nagradniBod").setFocus();
 end
 
 rule "osnovna kamata je 4% iznos > 100000, period <= 15"
+	agenda-group "osnovnaKamata"
     when
         $z: ZahtevKredit(iznos > 100000, period <= 15 * 12, kredit != null)
     then
     System.out.println("osnovna kamata je 4% iznos > 100000, period <= 15");
     $z.getKredit().setKamata(4);
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("nagradniBod").setFocus();
 end
 
 rule "osnovna kamata je 6% iznos <= 10000, 3 < period <= 5"
+	agenda-group "osnovnaKamata"
     when
         $z: ZahtevKredit(iznos <= 10000, period > 3 * 12, period <= 5 * 12, kredit != null)
     then
     System.out.println("osnovna kamata je 6% iznos <= 10000, 3 < period <= 5");
     $z.getKredit().setKamata(6);
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("nagradniBod").setFocus();
 end
 
 rule "osnovna kamata je 6% 10000 < iznos <= 30000, 5 < period =< 8"
+	agenda-group "osnovnaKamata"
     when
         $z: ZahtevKredit(iznos > 10000, iznos <= 30000, period > 5 * 12, period <= 8 * 12, kredit != null)
     then
     System.out.println("osnovna kamata je 6% 10000 < iznos <= 30000, 5 < period =< 8");
     $z.getKredit().setKamata(6);
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("nagradniBod").setFocus();
 end
 
 rule "osnovna kamata je 6% 30000 < iznos <= 60000, 8 < period <= 10"
+	agenda-group "osnovnaKamata"
     when
         $z: ZahtevKredit(iznos > 30000, iznos <= 60000, period > 8 * 12, period <= 10 * 12, kredit != null)
     then
     System.out.println("osnovna kamata je 6% 30000 < iznos <= 60000, 8 < period <= 10");
     $z.getKredit().setKamata(6);
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("nagradniBod").setFocus();
 end
 
 rule "osnovna kamata je 6% 60000 < iznos <= 100000, 10 < period <= 15"
+	agenda-group "osnovnaKamata"
     when
         $z: ZahtevKredit(iznos > 60000, iznos <= 100000, period > 10 * 12, period <= 15 * 12, kredit != null)
     then
     System.out.println("osnovna kamata je 6% 60000 < iznos <= 100000, 10 < period <= 15");
     $z.getKredit().setKamata(6);
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("nagradniBod").setFocus();
 end
 
 rule "osnovna kamata je 6% iznos > 100000, period > 15"
+	agenda-group "osnovnaKamata"
     when
         $z: ZahtevKredit(iznos > 100000, period > 15 * 12, kredit != null)
     then
     System.out.println("osnovna kamata je 6% iznos > 100000, period > 15");
     $z.getKredit().setKamata(6);
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("nagradniBod").setFocus();
 end
 
 rule "osnovna kamata je 8% iznos <= 10000, period > 5"
+	agenda-group "osnovnaKamata"
     when
         $z: ZahtevKredit(iznos <= 10000, period > 5 * 12, kredit != null)
     then
     System.out.println("osnovna kamata je 8% iznos <= 10000, period > 5");
     $z.getKredit().setKamata(8);
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("nagradniBod").setFocus();
 end
 
 rule "osnovna kamata je 8% 10000 < iznos <= 30000, period > 8"
+	agenda-group "osnovnaKamata"
     when
         $z: ZahtevKredit(iznos > 10000, iznos <= 30000, period > 8 * 12, kredit != null)
     then
     System.out.println("osnovna kamata je 8% 10000 < iznos <= 30000, period > 8");
     $z.getKredit().setKamata(8);
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("nagradniBod").setFocus();
 end
 
 rule "osnovna kamata je 8% 30000 < iznos <= 60000, period > 10"
+	agenda-group "osnovnaKamata"
     when
         $z: ZahtevKredit(iznos > 30000, iznos <= 60000, period > 10 * 12, kredit != null)
     then
     System.out.println("osnovna kamata je 8% 30000 < iznos <= 60000, period > 10");
     $z.getKredit().setKamata(8);
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("nagradniBod").setFocus();
 end
 
 rule "osnovna kamata je 8% 60000 < iznos <= 100000, period > 15"
+	agenda-group "osnovnaKamata"
     when
         $z: ZahtevKredit(iznos > 60000, iznos <= 100000, period > 15 * 12, kredit != null)
     then
     System.out.println("osnovna kamata je 8% 60000 < iznos <= 100000, period > 15");
     $z.getKredit().setKamata(8);
+    kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("nagradniBod").setFocus();
 end

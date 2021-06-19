@@ -22,6 +22,7 @@ public class TransakcijaDTO {
 	
 	public TransakcijaDTO(Transakcija t) {
 		super();
+		this.datum = t.getDatum();
 		this.tip = t.getTip().toString();
 		this.iznos = t.getIznos();
 	}

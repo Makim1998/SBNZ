@@ -2,7 +2,7 @@
     <h2>Transakcije</h2>
     <table mat-table [dataSource]="transactions" class="mat-elevation-z8">
         <ng-container matColumnDef="iznos">
-            <th mat-header-cell *matHeaderCellDef>Iznos </th>
+            <th mat-header-cell *matHeaderCellDef>Iznos (evri)</th>
             <td mat-cell *matCellDef="let element"> {{element.iznos}} </td>
         </ng-container>
         
@@ -13,7 +13,7 @@
     
         <ng-container matColumnDef="datum">
             <th mat-header-cell *matHeaderCellDef> Datum </th>
-            <td mat-cell *matCellDef="let element"> {{element.datum}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.datum  | date : "dd.MM.y h:mm"}} </td>
         </ng-container>
     
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

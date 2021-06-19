@@ -6,8 +6,11 @@ import com.example.model.ZonaNekretnine;
 import com.example.model.Hipoteka;
 import com.example.model.ZahtevKredit;
 
+import java.util.List;
+
 rule "stan zona I"
 	agenda-group "hipoteka"
+	salience 5
     when
         $n: Nekretnina(tip == TipNekretnine.STAN, zona == ZonaNekretnine.I, $k: kvadratura)
     then
@@ -17,6 +20,7 @@ end
 
 rule "stan zona II"
 	agenda-group "hipoteka"
+	salience 5
     when
         $n: Nekretnina(tip == TipNekretnine.STAN, zona == ZonaNekretnine.II, $k: kvadratura)
     then
@@ -26,6 +30,7 @@ end
 
 rule "stan zona III"
 	agenda-group "hipoteka"
+	salience 5
     when
         $n: Nekretnina(tip == TipNekretnine.STAN, zona == ZonaNekretnine.III, $k: kvadratura)
     then
@@ -35,6 +40,7 @@ end
 
 rule "kuca zona I"
 	agenda-group "hipoteka"
+	salience 5
     when
         $n: Nekretnina(tip == TipNekretnine.KUCA, zona == ZonaNekretnine.I, $k: kvadratura)
     then
@@ -44,6 +50,7 @@ end
 
 rule "kuca zona II"
 	agenda-group "hipoteka"
+	salience 5
     when
         $n: Nekretnina(tip == TipNekretnine.KUCA, zona == ZonaNekretnine.II, $k: kvadratura)
     then
@@ -53,6 +60,7 @@ end
 
 rule "kuca zona III"
 	agenda-group "hipoteka"
+	salience 5
     when
         $n: Nekretnina(tip == TipNekretnine.KUCA, zona == ZonaNekretnine.III, $k: kvadratura)
     then
@@ -62,6 +70,7 @@ end
 
 rule "hipoteka konacni uslov"
 	agenda-group "hipoteka"
+	salience 1
     when
         $z: ZahtevKredit($h: klijent.getHipoteka(), $i: iznos)
         Number (intValue ==  $h.getNekretnine().size()) from accumulate(
@@ -77,4 +86,34 @@ rule "hipoteka konacni uslov"
     System.out.println("pravilo hipoteka");
 	$z.setStatus(false);
     $z.setOdgovor("Procenjena vrednost hipoteke ne premasuje 120 % trazene kreditne sume");
+end
+
+rule "hipoteka ubacuj nekretnine"
+	agenda-group "hipoteka"
+	salience 10
+	lock-on-active true
+    when
+        ZahtevKredit($hipoteka: klijent.getHipoteka(), $nekretnine: klijent.getHipoteka().getNekretnine())
+    then
+    System.out.println("ubaci hipoteku i nekretnine u radnu memoriju");
+    insert($hipoteka);
+    for(Object o: $nekretnine){
+    	Nekretnina n = (Nekretnina) o;
+    	System.out.println(n.getKvadratura());
+    	insert(n);
+    }    
+end
+
+rule "azuriraj nekretnine"
+	salience 2
+	agenda-group "hipoteka"
+    when
+        $hipoteka: Hipoteka($klijent: klijent, $nekretnine: nekretnine)
+        $zahtev: ZahtevKredit(klijent.getId() == $klijent.getId())
+        $list: List() from collect(Nekretnina()) 
+        eval ($list.size() ==  $nekretnine.size())
+    then
+    System.out.println("postavi azurirane nekretnine");
+    $hipoteka.setNekretnine($list); 
+    $klijent.setHipoteka($hipoteka);
 end

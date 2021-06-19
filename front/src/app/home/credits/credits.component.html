@@ -1,0 +1,32 @@
+<div>
+    <h2>Krediti</h2>
+    <table mat-table [dataSource]="credits" class="mat-elevation-z8">
+        <ng-container matColumnDef="datum">
+            <th mat-header-cell *matHeaderCellDef>Datum ugovora </th>
+            <td mat-cell *matCellDef="let element"> {{element.ugovoren | date : "dd.MM.y"}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="iznos">
+            <th mat-header-cell *matHeaderCellDef> Iznos </th>
+            <td mat-cell *matCellDef="let element"> {{element.iznos}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="period">
+            <th mat-header-cell *matHeaderCellDef> Period isplate (meseci) </th>
+            <td mat-cell *matCellDef="let element"> {{element.periodIsplate}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="rata">
+            <th mat-header-cell *matHeaderCellDef> Mesecna rata </th>
+            <td mat-cell *matCellDef="let element"> {{element.mesecna_rata}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="kamata">
+            <th mat-header-cell *matHeaderCellDef> Kamata </th>
+            <td mat-cell *matCellDef="let element"> {{element.kamata}} </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

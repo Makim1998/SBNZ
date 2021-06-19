@@ -41,4 +41,8 @@ public class KreditService {
 		return this.kreditRepository.findByKlijentId(id);
 	}
 
+	public void delete(Kredit kredit) {
+		this.kreditRepository.delete(kredit);
+	}
+
 }

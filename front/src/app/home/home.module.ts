@@ -11,6 +11,8 @@ import { TransactionsComponent } from './transactions/transactions.component';
 import { TransactionDialogComponent } from './transaction-dialog/transaction-dialog.component';
 import { RequestSequelComponent } from './request-sequel/request-sequel.component';
 import { NekretninaDialogComponent } from './nekretnina-dialog/nekretnina-dialog.component';
+import { OfferComponent } from './offer/offer.component';
+import { CreditsComponent } from './credits/credits.component';
 
 
 
@@ -21,7 +23,9 @@ import { NekretninaDialogComponent } from './nekretnina-dialog/nekretnina-dialog
     TransactionsComponent,
     TransactionDialogComponent,
     RequestSequelComponent,
-    NekretninaDialogComponent
+    NekretninaDialogComponent,
+    OfferComponent,
+    CreditsComponent
   ],
   imports: [
     CommonModule,

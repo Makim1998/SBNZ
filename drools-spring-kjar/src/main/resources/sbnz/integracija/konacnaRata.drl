@@ -1,0 +1,72 @@
+package sbnz.integracija;
+
+import com.example.model.Klijent;
+import com.example.model.Kredit;
+import com.example.model.ZahtevKredit;
+
+rule "smanji osnovnu kamatu nagradni 2 do 4" 
+    agenda-group "konacnaKamata"
+    salience 10
+    when
+    	$klijent: Klijent(nagradni_poeni >= 2 && nagradni_poeni < 4)
+    	$kredit: Kredit(mesecna_rata == 0, klijent.getId() == $klijent.getId(), $zahtev: zahtev)
+    then
+        System.out.println("postavljanje konacne kamate nagradni 2 do 4");
+    	$kredit.setKamata($kredit.getKamata() * 0.95);
+    	$kredit.setMesecna_rata($zahtev.getIznos()*(1 + ($kredit.getKamata()/100))/ $zahtev.getPeriod());
+    	$klijent.setNagradni_poeni($klijent.getNagradni_poeni() - 1);
+end
+
+rule "smanji osnovnu kamatu nagradni 4 do 6" 
+    agenda-group "konacnaKamata"
+    salience 10
+    when
+    	$klijent: Klijent(nagradni_poeni >= 4 && nagradni_poeni < 6)
+    	$kredit: Kredit(mesecna_rata == 0, klijent.getId() == $klijent.getId(), $zahtev: zahtev)
+    then
+        System.out.println("postavljanje konacne kamate nagradni 4 do 6");
+    	$kredit.setKamata($kredit.getKamata() * 0.8);
+    	$kredit.setMesecna_rata($zahtev.getIznos()*(1 + ($kredit.getKamata()/100))/ $zahtev.getPeriod());
+    	$klijent.setNagradni_poeni($klijent.getNagradni_poeni() - 2);
+end
+
+rule "smanji osnovnu kamatu nagradni preko 6" 
+    agenda-group "konacnaKamata"
+    salience 10
+    when
+    	$klijent: Klijent(nagradni_poeni >= 6)
+    	$kredit: Kredit(mesecna_rata == 0, klijent.getId() == $klijent.getId(), $zahtev: zahtev)
+    then
+        System.out.println("postavljanje konacne kamate nagradni preko 6");
+    	$kredit.setKamata($kredit.getKamata() * 0.7);
+    	$kredit.setMesecna_rata($zahtev.getIznos()*(1 + ($kredit.getKamata()/100))/ $zahtev.getPeriod());
+    	$klijent.setNagradni_poeni($klijent.getNagradni_poeni() - 3);
+    	$zahtev.setKredit($kredit);
+    	System.out.println("mesecna rata" + $kredit.getMesecna_rata());
+end
+
+rule "krajnji uslov nije zadovoljen"
+	agenda-group "konacnaKamata"
+	salience 1
+    when
+    	$klijent: Klijent()
+    	$kredit: Kredit($zahtev: zahtev)
+    	eval($zahtev.getIznos()*(1 + ($kredit.getKamata()/100))/ $zahtev.getPeriod()  > 0.4 * $klijent.getMesecna_zarada())
+    then
+		System.out.println("mesecna rata vise od 40% klijentovih primanja");
+    	$zahtev.setOdgovor("Konacna mesecna rata iznosi vise od 40% klijentovih primanja");
+    	$zahtev.setStatus(false);
+end
+
+rule "krajnji uslov zadovoljen"
+	agenda-group "konacnaKamata"
+    salience 1
+
+    when
+    	$klijent: Klijent()
+    	$kredit: Kredit($zahtev: zahtev)
+    	eval($zahtev.getIznos()*(1 + ($kredit.getKamata()/100))/ $zahtev.getPeriod()  < 0.4 * $klijent.getMesecna_zarada())
+    then
+    	$zahtev.setOdgovor("Ok");
+    	System.out.println("izracunata konacna mesecna rata");
+end

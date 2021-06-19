@@ -25,7 +25,7 @@ public class Kredit {
 	
 	private double mesecna_rata;
 	
-	private int kamata;
+	private double kamata;
 	
 	private int datumRate;
 	
@@ -39,7 +39,7 @@ public class Kredit {
 		super();
 	}
 
-	public Kredit(Long id, ZahtevKredit zahtev, double mesecna_rata, int kamata, int datumRate, Date datum) {
+	public Kredit(Long id, ZahtevKredit zahtev, double mesecna_rata, double kamata, int datumRate, Date datum) {
 		super();
 		this.id = id;
 		this.zahtev = zahtev;
@@ -73,11 +73,11 @@ public class Kredit {
 		this.mesecna_rata = mesecna_rata;
 	}
 
-	public int getKamata() {
+	public double getKamata() {
 		return kamata;
 	}
 
-	public void setKamata(int kamata) {
+	public void setKamata(double kamata) {
 		this.kamata = kamata;
 	}
 

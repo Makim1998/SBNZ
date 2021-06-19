@@ -63,5 +63,5 @@ public class UserService implements UserDetailsService {
 	public List<ProfileDTO> getAllZirants(long id) {
 		return this.userRepository.getAllZirants(id).stream().map(u -> this.userMapper.map(u)).collect(Collectors.toList());
 	}
-
+	
 }

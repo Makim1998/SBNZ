@@ -12,7 +12,7 @@ values ('marko@gmail.com', '$2a$10$VpH.INOqjymPVNZ986HWkuTWPXMjk68d5AD/9Iu5gO846
 insert into user_authority (user_id, authority_id) values (1, 1);
 insert into user_authority (user_id, authority_id) values (2, 2);
 
-insert into klijent_table (godine, mesecna_zarada, nagradni_poeni, stanje_racun, pridruzen) values (66, 2000, 0, 5000, '2019-10-10');
+insert into klijent_table (godine, mesecna_zarada, nagradni_poeni, stanje_racun, pridruzen) values (66, 2000, 0, 50000, '2019-10-10');
 update user_table set klijent_id = 1 where id = 2;
 
 insert into kredit (mesecna_rata, kamata, datum_rate, datum_ugovora, klijent_id) values (300, 5, 31, '2020-01-01', 1);

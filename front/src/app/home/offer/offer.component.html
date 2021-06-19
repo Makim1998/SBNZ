@@ -1,0 +1,44 @@
+<app-form-container>
+    <h2>Ponuda</h2>
+    <form>
+        <div [class.disabled]="offerPending">
+            <mat-form-field>
+                <mat-label>Konacna kamata</mat-label>
+                <input 
+                matInput 
+                autocomplete="off"
+                [(ngModel)]="kamata" [ngModelOptions]="{standalone: true}" disabled>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Mesecna rata</mat-label>
+                <input 
+                matInput 
+                autocomplete="off"
+                [(ngModel)]="rata" [ngModelOptions]="{standalone: true}" disabled>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Dan isplate kredita u mesecu</mat-label>
+                <mat-select [(ngModel)]="dan" [ngModelOptions]="{standalone: true}">
+                  <mat-option *ngFor="let dan of dani" [value]="dan">
+                    {{dan}}
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <br>
+        <app-center-container>
+            <button 
+            *ngIf="!offerPending"
+            mat-raised-button 
+            color="primary"
+            (click)="accept()">Prihvati</button>
+            <button 
+            *ngIf="!offerPending"
+            mat-raised-button 
+            color="primary"
+            (click)="decline()" style="margin-left: 10px;">Odbij</button>
+            <app-spinner-button *ngIf="offerPending"></app-spinner-button>
+        </app-center-container>
+    </form>
+</app-form-container>
+

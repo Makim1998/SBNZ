@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Transakcija {
@@ -20,10 +20,9 @@ public class Transakcija {
 	@Column(name = "id")
 	private Long id;
 	
-	@NotBlank
+	@NotNull
 	private double iznos;
 	
-	@NotBlank
 	private TipTransakcije tip;
 	
 	private Date datum;
@@ -36,7 +35,7 @@ public class Transakcija {
 		super();
 	}
 
-	public Transakcija(Long id, @NotBlank double iznos, @NotBlank TipTransakcije tip, Date datum, Klijent klijent) {
+	public Transakcija(Long id, double iznos, TipTransakcije tip, Date datum, Klijent klijent) {
 		super();
 		this.id = id;
 		this.iznos = iznos;

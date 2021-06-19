@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router'
+import { ActivatedRoute, ParamMap, Router } from '@angular/router'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { Nekretnina } from 'src/app/models/nekretnina';
@@ -13,6 +13,8 @@ import { RequestCredit } from 'src/app/models/request';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
 import { Hipoteka } from 'src/app/models/hipoteka';
+import { KreditService } from 'src/app/services/kredit.service';
+import { Offer } from 'src/app/models/offer';
 
 @Component({
   selector: 'app-request-sequel',
@@ -23,9 +25,11 @@ export class RequestSequelComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    public router: Router,
     public dialog: MatDialog,
     public userService: UserService,
     public requestService: RequestSequelService,
+    public kreditService: KreditService,
     public snackBar: MatSnackBar
   ) { }
 
@@ -78,13 +82,12 @@ export class RequestSequelComponent implements OnInit {
     this.requestService.hipoteka(h, this.zahtev).subscribe(
       (request: RequestCredit) => {
         this.pending = false;
-        if(request.status){
-          this.snackBar.open(request.odgovor, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
+        if(request != null){
           console.log(request.id);
-          //this.router.navigate([REQUEST_SEQUEL_PATH, this.requestForm.controls['garancija'].value, request.id]);
+          this.kamata();
         }
         else{
-          this.snackBar.open(request.odgovor, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+          this.snackBar.open("Vrednost hipoteke ne premasuje 120% kreditne sume", SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
         }
         console.log(request);
       }
@@ -102,9 +105,8 @@ export class RequestSequelComponent implements OnInit {
       (request: RequestCredit) => {
         this.pending = false;
         if(request.status){
-          this.snackBar.open(request.odgovor, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
           console.log(request.id);
-          //this.router.navigate([REQUEST_SEQUEL_PATH, this.requestForm.controls['garancija'].value, request.id]);
+          this.kamata();
         }
         else{
           this.snackBar.open(request.odgovor, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
@@ -113,6 +115,21 @@ export class RequestSequelComponent implements OnInit {
     );
   }
   
+  kamata(): void{
+    this.pending = true;
+    this.kreditService.kamata(this.zahtev).subscribe(
+      (offer: Offer) => {
+        this.pending = false;
+        if(offer !== null){
+          this.snackBar.open("Ponuda je kreirana!", SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
+          this.router.navigate(['home/offers', offer.id.toString(), offer.datum.toString(), offer.kamata.toString(), offer.rata.toString() ]);
+        }
+        else{
+          this.snackBar.open("Mesecna rata sa kamatom je prevelika!", SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        }
+      }
+    );
+  }
 
   delete(n: Nekretnina): void{
     const index: number = this.nekretnine.indexOf(n);

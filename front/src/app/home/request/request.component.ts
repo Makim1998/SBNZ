@@ -21,7 +21,6 @@ export class RequestComponent implements OnInit {
     public requestService: RequestService,
     public snackBar: MatSnackBar,
     public router: Router,
-    private route: ActivatedRoute
   ) { }
 
   requestPending = false;

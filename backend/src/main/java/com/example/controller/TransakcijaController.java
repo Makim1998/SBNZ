@@ -14,10 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dto.TransakcijaDTO;
+import com.example.event.TransactionEvent;
+import com.example.event.WarningEvent;
 import com.example.mapper.TransakcijaMapper;
 import com.example.model.TipTransakcije;
 import com.example.model.Transakcija;
+import com.example.service.Email;
+import com.example.service.EmailService;
 import com.example.service.KieService;
+import com.example.service.KlijentService;
 import com.example.service.TransakcijaService;
 import com.example.service.UserService;
 
@@ -33,6 +38,12 @@ public class TransakcijaController {
 	
 	@Autowired
 	private TransakcijaService transakcijaService;
+	
+	@Autowired
+	private KlijentService klijentService;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	@Autowired
 	private TransakcijaMapper transakcijaMapper;
@@ -58,7 +69,13 @@ public class TransakcijaController {
 			t.getKlijent().setStanjeRacun(t.getKlijent().getStanjeRacun() - t.getIznos());
 		}
 		this.transakcijaService.save(t);
-		t = (Transakcija) this.kieService.addObjectToSession(t, "cep");
+		this.klijentService.save(t.getKlijent());
+		TransactionEvent tevent = new TransactionEvent(t.getKlijent(), t.getIznos(), t.getTip());
+		this.kieService.addObjectToTrackingSession(tevent);
+		WarningEvent w = this.kieService.checkWarnings();
+		if(w != null) {
+			this.emailService.sendEmail(new Email(this.userService.currentUser().getEmail(), "Upozorenje",w.getReason()));
+		}
 		return new ResponseEntity<TransakcijaDTO>(this.transakcijaMapper.map(t), HttpStatus.OK);
 	}
 
